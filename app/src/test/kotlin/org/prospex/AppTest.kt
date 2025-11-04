@@ -3,6 +3,7 @@
  */
 package org.prospex
 
+import org.prospex.presentation.App
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
