@@ -11,11 +11,11 @@ import org.prospex.domain.value_objects.Email
 import org.prospex.domain.value_objects.PasswordHash
 import java.util.UUID
 
-class CreateUserUseCase(
+sealed class SignUpUseCase(
     private val unitOfWork: IUnitOfWork,
     private val userRepository: IUserRepository,
     private val authRepository: IAuthRepository
-) : UseCase<CreateUserUseCase.Params, User> {
+) : UseCase<SignUpUseCase.Params, User> {
     data class Params(
         val email: String,
         val password: String
