@@ -7,11 +7,13 @@ data class PasswordHash(val hash: String) {
         require(sha256Regex.matches(hash)) { "PasswordHash must be a valid SHA-256 hash." }
     }
 
-    fun fromPlainText(plainText: String): PasswordHash {
-        require(plainText.isNotBlank()) { "Password cannot be blank." }
-        val digest = java.security.MessageDigest.getInstance("SHA-256")
-        val hashBytes = digest.digest(plainText.toByteArray(Charsets.UTF_8))
-        val hash = hashBytes.joinToString("") { "%02x".format(it) }
-        return PasswordHash(hash)
+    companion object {
+        fun fromPlainText(plainText: String): PasswordHash {
+            require(plainText.isNotBlank()) { "Password cannot be blank." }
+            val digest = java.security.MessageDigest.getInstance("SHA-256")
+            val hashBytes = digest.digest(plainText.toByteArray(Charsets.UTF_8))
+            val hash = hashBytes.joinToString("") { "%02x".format(it) }
+            return PasswordHash(hash)
+        }
     }
 }
