@@ -1,3 +1,9 @@
 package org.prospex.domain.models
 
-class Idea
+import java.util.UUID
+
+class Idea(
+    val id: UUID,
+    val userId: UUID,
+    val title: String
+)

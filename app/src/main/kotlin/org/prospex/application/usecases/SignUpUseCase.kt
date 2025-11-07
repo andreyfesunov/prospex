@@ -35,9 +35,10 @@ sealed class SignUpUseCase(
         }
 
         return unitOfWork.execute {
-            val user = userRepository.create(User(id = UUID.randomUUID(), email = email))
+            val user = User(id = UUID.randomUUID(), email = email)
+            userRepository.create(user = user)
             authRepository.saveCredentials(Credentials(email = email, passwordHash = passwordHash))
-            Result.Success(user)
+            Result.Success(data = user)
         }
     }
 }
