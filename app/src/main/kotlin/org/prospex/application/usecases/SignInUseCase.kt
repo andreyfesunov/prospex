@@ -4,6 +4,7 @@ import org.prospex.domain.value_objects.JWT
 import org.prospex.application.utilities.Result
 import org.prospex.application.utilities.UseCase
 import org.prospex.domain.repositories.IAuthRepository
+import org.prospex.domain.value_objects.Credentials
 import org.prospex.domain.value_objects.Email
 import org.prospex.domain.value_objects.PasswordHash
 
@@ -25,13 +26,9 @@ class SignInUseCase(
             return Result.Error("Error while creating password hash: ${e.message}")
         }
 
-        val credentials = authRepository.getCredentials(email) ?: return Result.Error("No user associated with this email.")
+        authRepository.getCredentials(email) ?: return Result.Error("Not found user with provided email.")
 
-        if (passwordHash != credentials.passwordHash) {
-            return Result.Error("Invalid password.")
-        }
-
-        val jwt = authRepository.authenticate(credentials) ?: return Result.Error("Error while authenticating user.")
+        val jwt = authRepository.authenticate(Credentials(email, passwordHash)) ?: return Result.Error("Error while authenticating user.")
 
         return Result.Success(jwt)
     }
