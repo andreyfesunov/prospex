@@ -32,7 +32,7 @@ class AuthRepository(
             .where { CredentialsDatasource.email eq email.value }
             .map {
                 Credentials(
-                    email = Email(it[CredentialsDatasource.email]),
+                    email = Email(it[CredentialsDatasource.email].value),
                     passwordHash = PasswordHash(it[CredentialsDatasource.passwordHash])
                 )
             }

@@ -3,11 +3,8 @@ package org.prospex.domain.models
 import org.prospex.domain.value_objects.Score
 import java.util.*
 
-class Idea(
+class SupportMeasure(
     val id: UUID,
-    val userId: UUID,
     val title: String,
-    val description: String,
-    val legalType: LegalType,
-    val score: Score
+    val minScore: Score
 )
