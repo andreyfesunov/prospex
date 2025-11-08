@@ -5,5 +5,6 @@ import java.util.*
 class Question(
     val id: UUID,
     val text: String,
-    val legalType: LegalType
+    val legalType: LegalType,
+    val type: QuestionType
 )

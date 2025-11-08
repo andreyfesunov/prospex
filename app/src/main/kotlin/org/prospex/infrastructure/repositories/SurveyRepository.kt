@@ -58,7 +58,8 @@ class SurveyRepository : ISurveyRepository {
                 Question(
                     id = it[QuestionsDatasource.id].value,
                     text = it[QuestionsDatasource.text],
-                    legalType = it[QuestionsDatasource.legalType]
+                    legalType = it[QuestionsDatasource.legalType],
+                    type = it[QuestionsDatasource.type]
                 )
             }
             .toList()
@@ -79,7 +80,8 @@ class SurveyRepository : ISurveyRepository {
                 Question(
                     id = it[QuestionsDatasource.id].value,
                     text = it[QuestionsDatasource.text],
-                    legalType = it[QuestionsDatasource.legalType]
+                    legalType = it[QuestionsDatasource.legalType],
+                    type = it[QuestionsDatasource.type]
                 )
             }
             .toList()
