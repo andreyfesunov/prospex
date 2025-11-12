@@ -101,4 +101,20 @@ class SurveyRepository : ISurveyRepository {
             .toList()
             .toTypedArray()
     }
+
+    override suspend fun getOptionsByQuestionId(questionId: UUID): Array<QuestionOption> {
+        return QuestionOptionsDatasource
+            .selectAll()
+            .where({ QuestionOptionsDatasource.questionId eq questionId })
+            .map {
+                QuestionOption(
+                    id = it[QuestionOptionsDatasource.id].value,
+                    questionId = it[QuestionOptionsDatasource.questionId],
+                    text = it[QuestionOptionsDatasource.text],
+                    score = Score(it[QuestionOptionsDatasource.score])
+                )
+            }
+            .toList()
+            .toTypedArray()
+    }
 }

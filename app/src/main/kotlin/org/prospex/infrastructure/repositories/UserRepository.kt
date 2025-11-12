@@ -7,6 +7,7 @@ import org.prospex.domain.models.User
 import org.prospex.domain.repositories.IUserRepository
 import org.prospex.domain.value_objects.Email
 import org.prospex.infrastructure.datasources.UsersDatasource
+import java.util.UUID
 
 class UserRepository : IUserRepository {
     override suspend fun create(user: User) {
@@ -20,6 +21,14 @@ class UserRepository : IUserRepository {
         return UsersDatasource
             .selectAll()
             .where { UsersDatasource.email eq email.value }
+            .map { User(id = it[UsersDatasource.id].value, email = Email(it[UsersDatasource.email])) }
+            .firstOrNull()
+    }
+
+    override suspend fun getById(id: UUID): User? {
+        return UsersDatasource
+            .selectAll()
+            .where { UsersDatasource.id eq id }
             .map { User(id = it[UsersDatasource.id].value, email = Email(it[UsersDatasource.email])) }
             .firstOrNull()
     }

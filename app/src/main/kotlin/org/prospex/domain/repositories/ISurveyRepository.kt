@@ -14,4 +14,5 @@ interface ISurveyRepository {
     suspend fun getQuestionsByLegalType(legalType: LegalType): Array<Question>
     suspend fun getQuestionsByOptionIds(optionIds: Array<UUID>): Array<Question>
     suspend fun getOptionsByIds(ids: Array<UUID>): Array<QuestionOption>
+    suspend fun getOptionsByQuestionId(questionId: UUID): Array<QuestionOption>
 }

@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Prospex</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="ideas_list">Список идей</string>
+    <string name="create_idea">Создать идею</string>
+    <string name="logout">Выйти</string>
+    <string name="account">Аккаунт</string>
+    <string name="user_email">Email пользователя</string>
+    <string name="title">Название</string>
+    <string name="description">Описание</string>
+    <string name="legal_type">Тип юридического лица</string>
+    <string name="load_questions">Загрузить вопросы</string>
 </resources>
 
