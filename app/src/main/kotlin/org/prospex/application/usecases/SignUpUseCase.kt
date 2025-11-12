@@ -11,7 +11,7 @@ import org.prospex.domain.value_objects.Email
 import org.prospex.domain.value_objects.PasswordHash
 import java.util.UUID
 
-sealed class SignUpUseCase(
+class SignUpUseCase(
     private val unitOfWork: IUnitOfWork,
     private val userRepository: IUserRepository,
     private val authRepository: IAuthRepository

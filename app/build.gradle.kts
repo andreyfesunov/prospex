@@ -21,8 +21,15 @@ repositories {
 dependencies {
     // JetBrains SQL
     implementation(libs.exposed.core)
-    implementation(libs.exposed.r2dbc)
+    implementation(libs.exposed.jdbc)
     implementation(libs.h2)
+
+    // SQLite
+    implementation(libs.sqlite)
+
+    // Koin
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
 
     // jsonwebtoken
     implementation("io.jsonwebtoken:jjwt-api:0.13.0")

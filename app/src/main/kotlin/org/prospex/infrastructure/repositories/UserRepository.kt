@@ -1,10 +1,8 @@
 package org.prospex.infrastructure.repositories
 
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
 import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.r2dbc.insert
-import org.jetbrains.exposed.v1.r2dbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.prospex.domain.models.User
 import org.prospex.domain.repositories.IUserRepository
 import org.prospex.domain.value_objects.Email
