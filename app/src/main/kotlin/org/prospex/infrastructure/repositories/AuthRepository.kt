@@ -49,6 +49,7 @@ class AuthRepository(
         val now = System.currentTimeMillis()
         val payload = Jwts.builder()
             .subject(credentials.email.value)
+            .claim("email", credentials.email.value)
             .issuedAt(Date(now))
             .expiration(Date(now + 1000 * 60 * 60))
             .signWith(key)

@@ -10,10 +10,12 @@ import org.prospex.application.usecases.SignInUseCase
 import org.prospex.application.usecases.SignUpUseCase
 import org.prospex.application.utilities.Result
 import org.prospex.domain.value_objects.JWT
+import org.prospex.infrastructure.utilities.IAuthProvider
 
 class AuthViewModel(
     private val signInUseCase: SignInUseCase,
     private val signUpUseCase: SignUpUseCase,
+    private val authProvider: IAuthProvider,
 ) : ViewModel() {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
@@ -75,6 +77,12 @@ class AuthViewModel(
 
     fun clearError() {
         _errorMessage.value = null
+    }
+
+    suspend fun getEmailFromJwt(): String? {
+        val jwt = _jwt.value ?: return null
+        val signingKey = authProvider.getSigningKey()
+        return jwt.getEmail(signingKey)
     }
 }
 
