@@ -2,11 +2,10 @@ package org.prospex.infrastructure.repositories
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.prospex.application.utilities.IUnitOfWork
 import org.prospex.domain.repositories.IAuthRepository
 import org.prospex.domain.repositories.IUserRepository
 import org.prospex.domain.value_objects.Credentials
@@ -19,26 +18,31 @@ import java.util.*
 
 class AuthRepository(
     private val provider: IAuthProvider,
-    private val userRepository: IUserRepository
+    private val userRepository: IUserRepository,
+    private val unitOfWork: IUnitOfWork
 ) : IAuthRepository {
     override suspend fun saveCredentials(credentials: Credentials) {
-        CredentialsDatasource.insert {
-            it[email] = credentials.email.value
-            it[passwordHash] = credentials.passwordHash.hash
+        unitOfWork.execute {
+            CredentialsDatasource.insert {
+                it[email] = credentials.email.value
+                it[passwordHash] = credentials.passwordHash.hash
+            }
         }
     }
 
     override suspend fun getCredentials(email: Email): Credentials? {
-        return CredentialsDatasource
-            .selectAll()
-            .where { CredentialsDatasource.email eq email.value }
-            .map {
-                Credentials(
-                    email = Email(it[CredentialsDatasource.email].value),
-                    passwordHash = PasswordHash(it[CredentialsDatasource.passwordHash])
-                )
-            }
-            .firstOrNull()
+        return unitOfWork.execute {
+            CredentialsDatasource
+                .selectAll()
+                .where { CredentialsDatasource.email eq email.value }
+                .map {
+                    Credentials(
+                        email = Email(it[CredentialsDatasource.email].value),
+                        passwordHash = PasswordHash(it[CredentialsDatasource.passwordHash])
+                    )
+                }
+                .firstOrNull()
+        }
     }
 
     override suspend fun authenticate(credentials: Credentials): JWT? {

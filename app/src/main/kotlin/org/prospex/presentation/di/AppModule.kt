@@ -35,11 +35,11 @@ object AppModule {
             single<IAuthContext> { get<ISettableAuthContext>() }
 
             // Repositories
-            single<IAuthRepository> { AuthRepository(get(), get()) }
-            single<IIdeaRepository> { IdeaRepository() }
-            single<ISupportMeasureRepository> { SupportMeasureRepository() }
-            single<ISurveyRepository> { SurveyRepository() }
-            single<IUserRepository> { UserRepository() }
+            single<IAuthRepository> { AuthRepository(get(), get(), get()) }
+            single<IIdeaRepository> { IdeaRepository(get()) }
+            single<ISupportMeasureRepository> { SupportMeasureRepository(get()) }
+            single<ISurveyRepository> { SurveyRepository(get()) }
+            single<IUserRepository> { UserRepository(get()) }
 
             // UseCases
             single { CreateIdeaUseCase(get(), get(), get(), get()) }
@@ -47,6 +47,9 @@ object AppModule {
             single { SignInUseCase(get()) }
             single { SignUpUseCase(get(), get(), get()) }
             single { UpdateIdeaUseCase(get(), get(), get(), get()) }
+
+            // Seeders
+            single { org.prospex.infrastructure.seeders.QuestionSeeder(get()) }
         }
     }
 }

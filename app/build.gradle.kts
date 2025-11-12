@@ -71,7 +71,8 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
 
     // LifeCycle
-    implementation(libs.lifecycle.compose)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     // AndroidX Core
     implementation("androidx.core:core-ktx:1.12.0")

@@ -15,4 +15,5 @@ interface ISurveyRepository {
     suspend fun getQuestionsByOptionIds(optionIds: Array<UUID>): Array<Question>
     suspend fun getOptionsByIds(ids: Array<UUID>): Array<QuestionOption>
     suspend fun getOptionsByQuestionId(questionId: UUID): Array<QuestionOption>
+    suspend fun hasAnyOptions(): Boolean
 }

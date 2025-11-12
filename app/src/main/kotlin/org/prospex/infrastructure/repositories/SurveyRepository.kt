@@ -6,6 +6,7 @@ import org.jetbrains.exposed.v1.core.inList
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.update
+import org.prospex.application.utilities.IUnitOfWork
 import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.Question
 import org.prospex.domain.models.QuestionOption
@@ -17,104 +18,131 @@ import org.prospex.infrastructure.datasources.QuestionsDatasource
 import org.prospex.infrastructure.datasources.SurveyResponsesDatasource
 import java.util.*
 
-class SurveyRepository : ISurveyRepository {
+class SurveyRepository(
+    private val unitOfWork: IUnitOfWork
+) : ISurveyRepository {
     override suspend fun create(question: Question) {
-        QuestionsDatasource.insert {
-            it[id] = question.id
-            it[text] = question.text
-            it[legalType] = question.legalType
+        unitOfWork.execute {
+            QuestionsDatasource.insert {
+                it[id] = question.id
+                it[text] = question.text
+                it[legalType] = question.legalType
+                it[type] = question.type
+            }
         }
     }
 
     override suspend fun create(questionOption: QuestionOption) {
-        QuestionOptionsDatasource.insert {
-            it[id] = questionOption.id
-            it[questionId] = questionOption.questionId
-            it[text] = questionOption.text
-            it[score] = questionOption.score.value
+        unitOfWork.execute {
+            QuestionOptionsDatasource.insert {
+                it[id] = questionOption.id
+                it[questionId] = questionOption.questionId
+                it[text] = questionOption.text
+                it[score] = questionOption.score.value
+            }
         }
     }
 
     override suspend fun create(surveyResponse: SurveyResponse) {
-        SurveyResponsesDatasource.insert {
-            it[ideaId] = surveyResponse.ideaId
-            it[optionIds] = surveyResponse.optionIds.asList()
+        unitOfWork.execute {
+            SurveyResponsesDatasource.insert {
+                it[ideaId] = surveyResponse.ideaId
+                it[optionIds] = surveyResponse.optionIds.asList()
+            }
         }
     }
 
     override suspend fun update(surveyResponse: SurveyResponse) {
-        SurveyResponsesDatasource.update({ SurveyResponsesDatasource.ideaId eq surveyResponse.ideaId }) {
-            it[optionIds] = surveyResponse.optionIds.asList()
+        unitOfWork.execute {
+            SurveyResponsesDatasource.update({ SurveyResponsesDatasource.ideaId eq surveyResponse.ideaId }) {
+                it[optionIds] = surveyResponse.optionIds.asList()
+            }
         }
     }
 
     override suspend fun getQuestionsByLegalType(legalType: LegalType): Array<Question> {
-        return QuestionsDatasource
-            .selectAll()
-            .where({ QuestionsDatasource.legalType eq legalType })
-            .map {
-                Question(
-                    id = it[QuestionsDatasource.id].value,
-                    text = it[QuestionsDatasource.text],
-                    legalType = it[QuestionsDatasource.legalType],
-                    type = it[QuestionsDatasource.type]
-                )
-            }
-            .toList()
-            .toTypedArray()
+        return unitOfWork.execute {
+            QuestionsDatasource
+                .selectAll()
+                .where { QuestionsDatasource.legalType eq legalType }
+                .map {
+                    Question(
+                        id = it[QuestionsDatasource.id].value,
+                        text = it[QuestionsDatasource.text],
+                        legalType = it[QuestionsDatasource.legalType],
+                        type = it[QuestionsDatasource.type]
+                    )
+                }
+                .toList()
+                .toTypedArray()
+        }
     }
 
     override suspend fun getQuestionsByOptionIds(optionIds: Array<UUID>): Array<Question> {
-        return QuestionsDatasource
-            .join(
-                QuestionOptionsDatasource,
-                JoinType.INNER,
-                QuestionsDatasource.id,
-                QuestionOptionsDatasource.questionId
-            )
-            .selectAll()
-            .where({ QuestionOptionsDatasource.id inList optionIds.toList() })
-            .map {
-                Question(
-                    id = it[QuestionsDatasource.id].value,
-                    text = it[QuestionsDatasource.text],
-                    legalType = it[QuestionsDatasource.legalType],
-                    type = it[QuestionsDatasource.type]
+        return unitOfWork.execute {
+            QuestionsDatasource
+                .join(
+                    QuestionOptionsDatasource,
+                    JoinType.INNER,
+                    QuestionsDatasource.id,
+                    QuestionOptionsDatasource.questionId
                 )
-            }
-            .toList()
-            .toTypedArray()
+                .selectAll()
+                .where { QuestionOptionsDatasource.id inList optionIds.toList() }
+                .map {
+                    Question(
+                        id = it[QuestionsDatasource.id].value,
+                        text = it[QuestionsDatasource.text],
+                        legalType = it[QuestionsDatasource.legalType],
+                        type = it[QuestionsDatasource.type]
+                    )
+                }
+                .toList()
+                .toTypedArray()
+        }
     }
 
     override suspend fun getOptionsByIds(ids: Array<UUID>): Array<QuestionOption> {
-        return QuestionOptionsDatasource
-            .selectAll()
-            .where({ QuestionOptionsDatasource.id inList ids.asList() })
-            .map {
-                QuestionOption(
-                    id = it[QuestionOptionsDatasource.id].value,
-                    questionId = it[QuestionOptionsDatasource.questionId],
-                    text = it[QuestionOptionsDatasource.text],
-                    score = Score(it[QuestionOptionsDatasource.score])
-                )
-            }
-            .toList()
-            .toTypedArray()
+        return unitOfWork.execute {
+            QuestionOptionsDatasource
+                .selectAll()
+                .where { QuestionOptionsDatasource.id inList ids.asList() }
+                .map {
+                    QuestionOption(
+                        id = it[QuestionOptionsDatasource.id].value,
+                        questionId = it[QuestionOptionsDatasource.questionId],
+                        text = it[QuestionOptionsDatasource.text],
+                        score = Score(it[QuestionOptionsDatasource.score])
+                    )
+                }
+                .toList()
+                .toTypedArray()
+        }
     }
 
     override suspend fun getOptionsByQuestionId(questionId: UUID): Array<QuestionOption> {
-        return QuestionOptionsDatasource
-            .selectAll()
-            .where({ QuestionOptionsDatasource.questionId eq questionId })
-            .map {
-                QuestionOption(
-                    id = it[QuestionOptionsDatasource.id].value,
-                    questionId = it[QuestionOptionsDatasource.questionId],
-                    text = it[QuestionOptionsDatasource.text],
-                    score = Score(it[QuestionOptionsDatasource.score])
-                )
-            }
-            .toList()
-            .toTypedArray()
+        return unitOfWork.execute {
+            QuestionOptionsDatasource
+                .selectAll()
+                .where { QuestionOptionsDatasource.questionId eq questionId }
+                .map {
+                    QuestionOption(
+                        id = it[QuestionOptionsDatasource.id].value,
+                        questionId = it[QuestionOptionsDatasource.questionId],
+                        text = it[QuestionOptionsDatasource.text],
+                        score = Score(it[QuestionOptionsDatasource.score])
+                    )
+                }
+                .toList()
+                .toTypedArray()
+        }
+    }
+
+    override suspend fun hasAnyOptions(): Boolean {
+        return unitOfWork.execute {
+            QuestionOptionsDatasource
+                .selectAll()
+                .firstOrNull() != null
+        }
     }
 }
