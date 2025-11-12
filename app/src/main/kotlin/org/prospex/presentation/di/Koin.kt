@@ -5,7 +5,10 @@ import org.koin.core.context.startKoin
 object Koin {
     fun init() {
         startKoin {
-            modules(AppModule.init())
+            modules(
+                AppModule.init(),
+                ViewModule.init()
+            )
         }
     }
 }
