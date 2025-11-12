@@ -11,11 +11,13 @@ import org.prospex.application.usecases.SignUpUseCase
 import org.prospex.application.utilities.Result
 import org.prospex.domain.value_objects.JWT
 import org.prospex.infrastructure.utilities.IAuthProvider
+import org.prospex.infrastructure.utilities.ISettableAuthContext
 
 class AuthViewModel(
     private val signInUseCase: SignInUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val authProvider: IAuthProvider,
+    private val authContext: ISettableAuthContext,
 ) : ViewModel() {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
@@ -35,6 +37,7 @@ class AuthViewModel(
 
             if (jwtResult is Result.Success) {
                 _jwt.value = jwtResult.data
+                authContext.setJwt(jwtResult.data)
                 _authState.value = AuthState.Authenticated(jwtResult.data)
                 _errorMessage.value = null
             }
@@ -70,6 +73,7 @@ class AuthViewModel(
     fun logout() {
         viewModelScope.launch {
             _jwt.value = null
+            authContext.setJwt(null)
             _authState.value = AuthState.Unauthenticated
             _errorMessage.value = null
         }

@@ -10,7 +10,7 @@ import org.prospex.presentation.viewmodels.IdeasListViewModel
 object ViewModule {
     fun init(): Module {
         return module {
-            viewModel { AuthViewModel(get(), get(), get()) }
+            viewModel { AuthViewModel(get(), get(), get(), get()) }
             viewModel { IdeasListViewModel(get()) }
             viewModel { CreateIdeaViewModel(get(), get()) }
         }

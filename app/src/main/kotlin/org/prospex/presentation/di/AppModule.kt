@@ -7,7 +7,9 @@ import org.prospex.application.usecases.GetIdeasUseCase
 import org.prospex.application.usecases.SignInUseCase
 import org.prospex.application.usecases.SignUpUseCase
 import org.prospex.application.usecases.UpdateIdeaUseCase
+import org.prospex.application.utilities.IAuthContext
 import org.prospex.application.utilities.IUnitOfWork
+import org.prospex.infrastructure.utilities.ISettableAuthContext
 import org.prospex.domain.repositories.IAuthRepository
 import org.prospex.domain.repositories.IIdeaRepository
 import org.prospex.domain.repositories.ISupportMeasureRepository
@@ -18,6 +20,7 @@ import org.prospex.infrastructure.repositories.IdeaRepository
 import org.prospex.infrastructure.repositories.SupportMeasureRepository
 import org.prospex.infrastructure.repositories.SurveyRepository
 import org.prospex.infrastructure.repositories.UserRepository
+import org.prospex.infrastructure.utilities.AuthContext
 import org.prospex.infrastructure.utilities.IAuthProvider
 import org.prospex.infrastructure.utilities.UnitOfWork
 import org.prospex.presentation.providers.AuthProvider
@@ -28,9 +31,11 @@ object AppModule {
             // Utils
             single<IUnitOfWork> { UnitOfWork() }
             single<IAuthProvider> { AuthProvider() }
+            single<ISettableAuthContext> { AuthContext(get()) }
+            single<IAuthContext> { get<ISettableAuthContext>() }
 
             // Repositories
-            single<IAuthRepository> { AuthRepository(get()) }
+            single<IAuthRepository> { AuthRepository(get(), get()) }
             single<IIdeaRepository> { IdeaRepository() }
             single<ISupportMeasureRepository> { SupportMeasureRepository() }
             single<ISurveyRepository> { SurveyRepository() }

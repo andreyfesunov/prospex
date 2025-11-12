@@ -2,6 +2,7 @@ package org.prospex.domain.value_objects
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import java.util.UUID
 
 data class JWT(val payload: String)
 {
@@ -20,6 +21,22 @@ data class JWT(val payload: String)
                 .payload
             
             claims["email"] as? String ?: claims.subject
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getUserId(signingKey: String): UUID? {
+        return try {
+            val key = Keys.hmacShaKeyFor(signingKey.toByteArray())
+            val claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(payload)
+                .payload
+            
+            val userIdString = claims["userId"] as? String
+            userIdString?.let { UUID.fromString(it) }
         } catch (e: Exception) {
             null
         }

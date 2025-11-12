@@ -94,7 +94,7 @@ class CreateIdeaViewModel(
                         legalType = legalType
                     ),
                     surveyResponse = org.prospex.domain.models.SurveyResponse(
-                        ideaId = UUID.randomUUID(), // будет заменено в use case
+                        ideaId = UUID.randomUUID(),
                         optionIds = allOptionIds
                     )
                 )
