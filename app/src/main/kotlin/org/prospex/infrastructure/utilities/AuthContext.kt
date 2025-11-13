@@ -6,6 +6,8 @@ import java.util.UUID
 
 interface ISettableAuthContext : IAuthContext {
     fun setJwt(jwt: JWT?)
+    fun getJwt(): JWT?
+    suspend fun getEmail(): String?
 }
 
 class AuthContext(
@@ -15,6 +17,16 @@ class AuthContext(
 
     override fun setJwt(jwt: JWT?) {
         this.jwt = jwt
+    }
+
+    override fun getJwt(): JWT? {
+        return jwt
+    }
+
+    override suspend fun getEmail(): String? {
+        val currentJwt = jwt ?: return null
+        val signingKey = authProvider.getSigningKey()
+        return currentJwt.getEmail(signingKey)
     }
 
     override suspend fun getUserId(): UUID {

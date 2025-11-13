@@ -2,27 +2,18 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-agp = "8.1.0"
-kotlin = "1.9.22"
+agp = "8.2.2"
+kotlin = "2.0.0"
 guava = "33.4.5-jre"
 junit-jupiter-engine = "5.12.1"
-exposed = "1.0.0-rc-2"
-h2 = "2.2.224"
 koin-bom = "3.5.5"
-sqlite-jdbc = "3.43.0.0"
-lifecycle = "2.9.6"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter-engine" }
-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
-h2 = { module = "com.h2database:h2", version.ref = "h2" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-android = { module = "io.insert-koin:koin-android" }
 koin-core = { module = "io.insert-koin:koin-core" }
-sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
-lifecycle-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.application)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 repositories {
@@ -53,13 +54,13 @@ android {
 }
 
 dependencies {
-    // JetBrains SQL
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.jdbc)
-    implementation(libs.h2)
-
-    // SQLite
-    implementation(libs.sqlite)
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.0.0"))
+    
+    // Room
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     // Koin
     implementation(platform(libs.koin.bom))
@@ -69,6 +70,7 @@ dependencies {
     // jsonwebtoken
     implementation("io.jsonwebtoken:jjwt-api:0.13.0")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
     // LifeCycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

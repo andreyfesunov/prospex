@@ -1,148 +1,116 @@
 package org.prospex.infrastructure.repositories
 
-import org.jetbrains.exposed.v1.core.JoinType
-import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.core.inList
-import org.jetbrains.exposed.v1.jdbc.insert
-import org.jetbrains.exposed.v1.jdbc.selectAll
-import org.jetbrains.exposed.v1.jdbc.update
-import org.prospex.application.utilities.IUnitOfWork
 import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.Question
 import org.prospex.domain.models.QuestionOption
+import org.prospex.domain.models.QuestionType
 import org.prospex.domain.models.SurveyResponse
 import org.prospex.domain.repositories.ISurveyRepository
 import org.prospex.domain.value_objects.Score
-import org.prospex.infrastructure.datasources.QuestionOptionsDatasource
-import org.prospex.infrastructure.datasources.QuestionsDatasource
-import org.prospex.infrastructure.datasources.SurveyResponsesDatasource
+import org.prospex.infrastructure.database.dao.QuestionDao
+import org.prospex.infrastructure.database.dao.QuestionOptionDao
+import org.prospex.infrastructure.database.dao.SurveyResponseDao
+import org.prospex.infrastructure.database.entities.QuestionEntity
+import org.prospex.infrastructure.database.entities.QuestionOptionEntity
+import org.prospex.infrastructure.database.entities.SurveyResponseEntity
 import java.util.*
 
 class SurveyRepository(
-    private val unitOfWork: IUnitOfWork
+    private val questionDao: QuestionDao,
+    private val questionOptionDao: QuestionOptionDao,
+    private val surveyResponseDao: SurveyResponseDao
 ) : ISurveyRepository {
     override suspend fun create(question: Question) {
-        unitOfWork.execute {
-            QuestionsDatasource.insert {
-                it[id] = question.id
-                it[text] = question.text
-                it[legalType] = question.legalType
-                it[type] = question.type
-            }
-        }
+        questionDao.insert(
+            QuestionEntity.fromDomain(
+                question.id,
+                question.text,
+                question.legalType.name,
+                question.type.name
+            )
+        )
     }
 
     override suspend fun create(questionOption: QuestionOption) {
-        unitOfWork.execute {
-            QuestionOptionsDatasource.insert {
-                it[id] = questionOption.id
-                it[questionId] = questionOption.questionId
-                it[text] = questionOption.text
-                it[score] = questionOption.score.value
-            }
-        }
+        questionOptionDao.insert(
+            QuestionOptionEntity.fromDomain(
+                questionOption.id,
+                questionOption.questionId,
+                questionOption.text,
+                questionOption.score.value
+            )
+        )
     }
 
     override suspend fun create(surveyResponse: SurveyResponse) {
-        unitOfWork.execute {
-            SurveyResponsesDatasource.insert {
-                it[ideaId] = surveyResponse.ideaId
-                it[optionIds] = surveyResponse.optionIds.asList()
-            }
-        }
+        surveyResponseDao.insert(
+            SurveyResponseEntity.fromDomain(
+                surveyResponse.ideaId,
+                surveyResponse.optionIds
+            )
+        )
     }
 
     override suspend fun update(surveyResponse: SurveyResponse) {
-        unitOfWork.execute {
-            SurveyResponsesDatasource.update({ SurveyResponsesDatasource.ideaId eq surveyResponse.ideaId }) {
-                it[optionIds] = surveyResponse.optionIds.asList()
-            }
-        }
+        surveyResponseDao.update(
+            SurveyResponseEntity.fromDomain(
+                surveyResponse.ideaId,
+                surveyResponse.optionIds
+            )
+        )
     }
 
     override suspend fun getQuestionsByLegalType(legalType: LegalType): Array<Question> {
-        return unitOfWork.execute {
-            QuestionsDatasource
-                .selectAll()
-                .where { QuestionsDatasource.legalType eq legalType }
-                .map {
-                    Question(
-                        id = it[QuestionsDatasource.id].value,
-                        text = it[QuestionsDatasource.text],
-                        legalType = it[QuestionsDatasource.legalType],
-                        type = it[QuestionsDatasource.type]
-                    )
-                }
-                .toList()
-                .toTypedArray()
-        }
+        val entities = questionDao.getByLegalType(legalType.name)
+        return entities.map { entity ->
+            Question(
+                id = UUID.fromString(entity.id),
+                text = entity.text,
+                legalType = LegalType.valueOf(entity.legalType),
+                type = QuestionType.valueOf(entity.type)
+            )
+        }.toTypedArray()
     }
 
     override suspend fun getQuestionsByOptionIds(optionIds: Array<UUID>): Array<Question> {
-        return unitOfWork.execute {
-            QuestionsDatasource
-                .join(
-                    QuestionOptionsDatasource,
-                    JoinType.INNER,
-                    QuestionsDatasource.id,
-                    QuestionOptionsDatasource.questionId
-                )
-                .selectAll()
-                .where { QuestionOptionsDatasource.id inList optionIds.toList() }
-                .map {
-                    Question(
-                        id = it[QuestionsDatasource.id].value,
-                        text = it[QuestionsDatasource.text],
-                        legalType = it[QuestionsDatasource.legalType],
-                        type = it[QuestionsDatasource.type]
-                    )
-                }
-                .toList()
-                .toTypedArray()
-        }
+        val optionIdStrings = optionIds.map { it.toString() }
+        val entities = questionDao.getByOptionIds(optionIdStrings)
+        return entities.map { entity ->
+            Question(
+                id = UUID.fromString(entity.id),
+                text = entity.text,
+                legalType = LegalType.valueOf(entity.legalType),
+                type = QuestionType.valueOf(entity.type)
+            )
+        }.toTypedArray()
     }
 
     override suspend fun getOptionsByIds(ids: Array<UUID>): Array<QuestionOption> {
-        return unitOfWork.execute {
-            QuestionOptionsDatasource
-                .selectAll()
-                .where { QuestionOptionsDatasource.id inList ids.asList() }
-                .map {
-                    QuestionOption(
-                        id = it[QuestionOptionsDatasource.id].value,
-                        questionId = it[QuestionOptionsDatasource.questionId],
-                        text = it[QuestionOptionsDatasource.text],
-                        score = Score(it[QuestionOptionsDatasource.score])
-                    )
-                }
-                .toList()
-                .toTypedArray()
-        }
+        val idStrings = ids.map { it.toString() }
+        val entities = questionOptionDao.getByIds(idStrings)
+        return entities.map { entity ->
+            QuestionOption(
+                id = UUID.fromString(entity.id),
+                questionId = UUID.fromString(entity.questionId),
+                text = entity.text,
+                score = Score(entity.score.toUInt())
+            )
+        }.toTypedArray()
     }
 
     override suspend fun getOptionsByQuestionId(questionId: UUID): Array<QuestionOption> {
-        return unitOfWork.execute {
-            QuestionOptionsDatasource
-                .selectAll()
-                .where { QuestionOptionsDatasource.questionId eq questionId }
-                .map {
-                    QuestionOption(
-                        id = it[QuestionOptionsDatasource.id].value,
-                        questionId = it[QuestionOptionsDatasource.questionId],
-                        text = it[QuestionOptionsDatasource.text],
-                        score = Score(it[QuestionOptionsDatasource.score])
-                    )
-                }
-                .toList()
-                .toTypedArray()
-        }
+        val entities = questionOptionDao.getByQuestionId(questionId.toString())
+        return entities.map { entity ->
+            QuestionOption(
+                id = UUID.fromString(entity.id),
+                questionId = UUID.fromString(entity.questionId),
+                text = entity.text,
+                score = Score(entity.score.toUInt())
+            )
+        }.toTypedArray()
     }
 
     override suspend fun hasAnyOptions(): Boolean {
-        return unitOfWork.execute {
-            QuestionOptionsDatasource
-                .selectAll()
-                .firstOrNull() != null
-        }
+        return questionOptionDao.count() > 0
     }
 }

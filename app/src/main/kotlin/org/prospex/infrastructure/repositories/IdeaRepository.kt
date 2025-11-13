@@ -1,99 +1,79 @@
 package org.prospex.infrastructure.repositories
 
-import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.jdbc.insert
-import org.jetbrains.exposed.v1.jdbc.selectAll
-import org.jetbrains.exposed.v1.jdbc.update
-import org.prospex.application.utilities.IUnitOfWork
 import org.prospex.domain.models.Idea
+import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.PageModel
 import org.prospex.domain.repositories.IIdeaRepository
 import org.prospex.domain.repositories.IdeaFilters
 import org.prospex.domain.value_objects.Score
-import org.prospex.infrastructure.datasources.IdeasDatasource
+import org.prospex.infrastructure.database.dao.IdeaDao
+import org.prospex.infrastructure.database.entities.IdeaEntity
 import java.util.*
 
 class IdeaRepository(
-    private val unitOfWork: IUnitOfWork
+    private val ideaDao: IdeaDao
 ) : IIdeaRepository {
     override suspend fun create(idea: Idea) {
-        unitOfWork.execute {
-            IdeasDatasource.insert {
-                it[id] = idea.id
-                it[userId] = idea.userId
-                it[title] = idea.title
-                it[description] = idea.description
-                it[legalType] = idea.legalType
-                it[score] = idea.score.value
-            }
-        }
+        ideaDao.insert(
+            IdeaEntity.fromDomain(
+                idea.id,
+                idea.userId,
+                idea.title,
+                idea.description,
+                idea.legalType,
+                idea.score.value
+            )
+        )
     }
 
     override suspend fun update(idea: Idea) {
-        unitOfWork.execute {
-            IdeasDatasource.update({ IdeasDatasource.id eq idea.id }) {
-                it[userId] = idea.userId
-                it[title] = idea.title
-                it[description] = idea.description
-                it[legalType] = idea.legalType
-                it[score] = idea.score.value
-            }
-        }
+        ideaDao.update(
+            IdeaEntity.fromDomain(
+                idea.id,
+                idea.userId,
+                idea.title,
+                idea.description,
+                idea.legalType,
+                idea.score.value
+            )
+        )
     }
 
     override suspend fun get(id: UUID): Idea? {
-        return unitOfWork.execute {
-            IdeasDatasource
-                .selectAll()
-                .where({ IdeasDatasource.id eq id })
-                .map {
-                    Idea(
-                        id = it[IdeasDatasource.id].value,
-                        userId = it[IdeasDatasource.userId],
-                        title = it[IdeasDatasource.title],
-                        description = it[IdeasDatasource.description],
-                        legalType = it[IdeasDatasource.legalType],
-                        score = Score(it[IdeasDatasource.score])
-                    )
-                }
-                .firstOrNull()
-        }
+        val entity = ideaDao.getById(id.toString()) ?: return null
+        return Idea(
+            id = UUID.fromString(entity.id),
+            userId = UUID.fromString(entity.userId),
+            title = entity.title,
+            description = entity.description,
+            legalType = LegalType.valueOf(entity.legalType),
+            score = Score(entity.score.toUInt())
+        )
     }
 
     override suspend fun get(filters: IdeaFilters): PageModel<Idea> {
-        return unitOfWork.execute {
-            val builder = { IdeasDatasource.userId eq filters.userId }
-
-            val query = IdeasDatasource
-                .selectAll()
-                .where(builder)
-
-            val paginatedItems = query
-                .offset(((filters.page.value - 1u) * filters.pageSize.value).toLong())
-                .take(filters.pageSize.value.toInt())
-                .map {
-                    Idea(
-                        id = it[IdeasDatasource.id].value,
-                        userId = it[IdeasDatasource.userId],
-                        title = it[IdeasDatasource.title],
-                        description = it[IdeasDatasource.description],
-                        legalType = it[IdeasDatasource.legalType],
-                        score = Score(it[IdeasDatasource.score])
-                    )
-                }
-                .toList()
-                .toTypedArray()
-
-            val totalItems = query
-                .count()
-                .toUInt()
-
-            PageModel(
-                items = paginatedItems,
-                page = filters.page,
-                pageSize = filters.pageSize,
-                totalItems = totalItems
+        val offset = ((filters.page.value - 1u) * filters.pageSize.value).toInt()
+        val limit = filters.pageSize.value.toInt()
+        
+        val entities = ideaDao.getByUserId(filters.userId.toString(), limit, offset)
+        val totalItems = ideaDao.countByUserId(filters.userId.toString()).toUInt()
+        
+        val items = entities.map { entity ->
+            Idea(
+                id = UUID.fromString(entity.id),
+                userId = UUID.fromString(entity.userId),
+                title = entity.title,
+                description = entity.description,
+                legalType = LegalType.valueOf(entity.legalType),
+                score = Score(entity.score.toUInt())
             )
-        }
+        }.toTypedArray()
+        
+        return PageModel(
+            items = items,
+            page = filters.page,
+            pageSize = filters.pageSize,
+            totalItems = totalItems
+        )
     }
 }

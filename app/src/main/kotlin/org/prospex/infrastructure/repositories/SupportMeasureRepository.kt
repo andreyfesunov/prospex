@@ -1,21 +1,20 @@
 package org.prospex.infrastructure.repositories
 
-import org.jetbrains.exposed.v1.jdbc.insert
-import org.prospex.application.utilities.IUnitOfWork
 import org.prospex.domain.models.SupportMeasure
 import org.prospex.domain.repositories.ISupportMeasureRepository
-import org.prospex.infrastructure.datasources.SupportMeasuresDatasource
+import org.prospex.infrastructure.database.dao.SupportMeasureDao
+import org.prospex.infrastructure.database.entities.SupportMeasureEntity
 
 class SupportMeasureRepository(
-    private val unitOfWork: IUnitOfWork
+    private val supportMeasureDao: SupportMeasureDao
 ) : ISupportMeasureRepository {
     override suspend fun create(measure: SupportMeasure) {
-        unitOfWork.execute {
-            SupportMeasuresDatasource.insert {
-                it[id] = measure.id
-                it[title] = measure.title
-                it[minScore] = measure.minScore.value
-            }
-        }
+        supportMeasureDao.insert(
+            SupportMeasureEntity.fromDomain(
+                measure.id,
+                measure.title,
+                measure.minScore.value
+            )
+        )
     }
 }

@@ -1,26 +1,15 @@
 package org.prospex.infrastructure.utilities
 
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.v1.jdbc.Database
-import org.jetbrains.exposed.v1.jdbc.transactions.TransactionManager
-import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import androidx.room.withTransaction
 import org.prospex.application.utilities.IUnitOfWork
+import org.prospex.infrastructure.database.ProspexDatabase
 
-class UnitOfWork : IUnitOfWork {
-    private val database = Database.connect(
-        "jdbc:sqlite:business_ideas.db",
-        "org.sqlite.JDBC"
-    )
-
+class UnitOfWork(
+    private val database: ProspexDatabase
+) : IUnitOfWork {
     override suspend fun <T> execute(block: suspend () -> T): T {
-        val currentTransaction = TransactionManager.currentOrNull()
-
-        return if (currentTransaction != null) {
+        return database.withTransaction {
             block()
-        } else {
-            transaction(database) {
-                runBlocking { block() }
-            }
         }
     }
 }

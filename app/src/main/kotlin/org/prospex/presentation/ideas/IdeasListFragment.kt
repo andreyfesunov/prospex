@@ -43,6 +43,11 @@ class IdeasListFragment : Fragment() {
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refresh()
+    }
+
     private fun setupObservers() {
         lifecycleScope.launch {
             viewModel.ideasState.collect { state ->

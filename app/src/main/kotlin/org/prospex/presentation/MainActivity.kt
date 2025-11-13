@@ -12,14 +12,17 @@ import androidx.navigation.ui.setupWithNavController
 import kotlinx.coroutines.launch
 import org.prospex.R
 import org.prospex.databinding.ActivityMainBinding
+import org.prospex.infrastructure.utilities.ISettableAuthContext
 import org.prospex.presentation.auth.AuthActivity
 import org.prospex.presentation.viewmodels.AuthViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val authViewModel: AuthViewModel by viewModel()
+    private val authContext: ISettableAuthContext by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +44,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupDrawer() {
         lifecycleScope.launch {
+            val email = authContext.getEmail() ?: "Пользователь"
+            binding.navView.getHeaderView(0)
+                .findViewById<android.widget.TextView>(R.id.nav_header_email)
+                .text = email
+        }
+
+        lifecycleScope.launch {
             authViewModel.jwt.collect { jwt ->
                 if (jwt != null) {
-                    val email = authViewModel.getEmailFromJwt() ?: "Пользователь"
+                    val email = authContext.getEmail() ?: "Пользователь"
                     binding.navView.getHeaderView(0)
                         .findViewById<android.widget.TextView>(R.id.nav_header_email)
                         .text = email

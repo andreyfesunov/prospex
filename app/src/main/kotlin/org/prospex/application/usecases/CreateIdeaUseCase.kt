@@ -59,7 +59,12 @@ class CreateIdeaUseCase(
 
         return unitOfWork.execute {
             ideaRepository.create(idea)
-            surveyRepository.create(params.surveyResponse)
+            surveyRepository.create(
+                SurveyResponse(
+                    ideaId = idea.id,
+                    optionIds = params.surveyResponse.optionIds
+                )
+            )
             Result.Success(idea)
         }
     }

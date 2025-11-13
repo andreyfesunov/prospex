@@ -14,7 +14,7 @@ class ProspexApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Koin.init()
+        Koin.init(this)
         
         applicationScope.launch {
             val questionSeeder = GlobalContext.get().get<QuestionSeeder>()
