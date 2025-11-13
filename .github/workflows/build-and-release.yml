@@ -1,4 +1,4 @@
-name: Build and Release
+name: build and release
 
 on:
   push:
@@ -44,6 +44,22 @@ jobs:
       - name: Build APK
         run: ./gradlew assembleRelease --no-daemon
 
+      - name: Find APK file
+        id: find_apk
+        run: |
+          if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
+            APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          elif [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
+            APK_PATH="app/build/outputs/apk/release/app-release-unsigned.apk"
+          else
+            echo "APK file not found. Listing directory contents:"
+            ls -la app/build/outputs/apk/release/ || true
+            find app/build/outputs -name "*.apk" || true
+            exit 1
+          fi
+          echo "apk_path=${APK_PATH}" >> $GITHUB_OUTPUT
+          echo "Found APK at: ${APK_PATH}"
+
       - name: Get version name
         id: version
         run: |
@@ -59,9 +75,12 @@ jobs:
         id: rename
         run: |
           VERSION="${{ steps.version.outputs.version }}"
+          APK_PATH="${{ steps.find_apk.outputs.apk_path }}"
           APK_NAME="prospex-${VERSION}.apk"
-          mv app/build/outputs/apk/release/app-release.apk "app/build/outputs/apk/release/${APK_NAME}"
+          APK_DIR=$(dirname "${APK_PATH}")
+          mv "${APK_PATH}" "${APK_DIR}/${APK_NAME}"
           echo "apk_name=${APK_NAME}" >> $GITHUB_OUTPUT
+          echo "apk_path=${APK_DIR}/${APK_NAME}" >> $GITHUB_OUTPUT
           echo "APK renamed to: ${APK_NAME}"
 
       - name: Create Release
@@ -80,7 +99,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            app/build/outputs/apk/release/${{ steps.rename.outputs.apk_name }}
+            ${{ steps.rename.outputs.apk_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -88,6 +107,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prospex-${{ steps.version.outputs.version }}
-          path: app/build/outputs/apk/release/${{ steps.rename.outputs.apk_name }}
+          path: ${{ steps.rename.outputs.apk_path }}
           retention-days: 30
 
