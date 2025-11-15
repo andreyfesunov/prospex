@@ -65,6 +65,7 @@ object AppModule {
 
             // Seeders
             single { org.prospex.infrastructure.seeders.QuestionSeeder(get()) }
+            single { org.prospex.infrastructure.seeders.SupportMeasureSeeder(get()) }
         }
     }
 }

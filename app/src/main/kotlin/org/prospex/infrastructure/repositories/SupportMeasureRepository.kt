@@ -10,11 +10,17 @@ class SupportMeasureRepository(
 ) : ISupportMeasureRepository {
     override suspend fun create(measure: SupportMeasure) {
         supportMeasureDao.insert(
-            SupportMeasureEntity.fromDomain(
-                measure.id,
-                measure.title,
-                measure.minScore.value
-            )
+            SupportMeasureEntity.fromDomain(measure)
         )
+    }
+    
+    override suspend fun getAll(): Array<SupportMeasure> {
+        return supportMeasureDao.getAll()
+            .map { SupportMeasureEntity.toDomain(it) }
+            .toTypedArray()
+    }
+    
+    override suspend fun hasAny(): Boolean {
+        return supportMeasureDao.count() > 0
     }
 }

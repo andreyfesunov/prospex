@@ -27,5 +27,11 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_support_measures"
+        android:name="org.prospex.presentation.support.SupportMeasuresFragment"
+        android:label="@string/support_measures"
+        tools:layout="@layout/fragment_support_measures" />
+
 </navigation>
 

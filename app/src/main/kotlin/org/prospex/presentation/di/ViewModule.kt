@@ -7,6 +7,7 @@ import org.prospex.presentation.viewmodels.AuthViewModel
 import org.prospex.presentation.viewmodels.CreateIdeaViewModel
 import org.prospex.presentation.viewmodels.IdeaDetailsViewModel
 import org.prospex.presentation.viewmodels.IdeasListViewModel
+import org.prospex.presentation.viewmodels.SupportMeasuresViewModel
 
 object ViewModule {
     fun init(): Module {
@@ -15,6 +16,7 @@ object ViewModule {
             viewModel { IdeasListViewModel(get(), get()) }
             viewModel { CreateIdeaViewModel(get(), get()) }
             viewModel { IdeaDetailsViewModel(get(), get(), get()) }
+            viewModel { SupportMeasuresViewModel(get()) }
         }
     }
 }

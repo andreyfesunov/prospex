@@ -19,5 +19,6 @@
     <string name="idea_details">Детали идеи</string>
     <string name="delete_idea">Удалить идею</string>
     <string name="delete_idea_confirmation">Вы уверены, что хотите удалить эту идею?</string>
+    <string name="support_measures">Меры поддержки</string>
 </resources>
 

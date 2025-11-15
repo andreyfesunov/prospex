@@ -17,7 +17,7 @@ import org.prospex.infrastructure.database.entities.*
         SurveyResponseEntity::class,
         SupportMeasureEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ProspexDatabase : RoomDatabase() {
@@ -39,7 +39,9 @@ abstract class ProspexDatabase : RoomDatabase() {
                     context.applicationContext,
                     ProspexDatabase::class.java,
                     "business_ideas.db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }
