@@ -39,6 +39,11 @@ class IdeaRepository(
         )
     }
 
+    override suspend fun delete(id: UUID) {
+        val entity = ideaDao.getById(id.toString()) ?: return
+        ideaDao.delete(entity)
+    }
+
     override suspend fun get(id: UUID): Idea? {
         val entity = ideaDao.getById(id.toString()) ?: return null
         return Idea(

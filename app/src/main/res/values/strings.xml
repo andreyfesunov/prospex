@@ -15,5 +15,9 @@
     <string name="description">Описание</string>
     <string name="legal_type">Тип юридического лица</string>
     <string name="load_questions">Загрузить вопросы</string>
+    <string name="details">Подробнее</string>
+    <string name="idea_details">Детали идеи</string>
+    <string name="delete_idea">Удалить идею</string>
+    <string name="delete_idea_confirmation">Вы уверены, что хотите удалить эту идею?</string>
 </resources>
 

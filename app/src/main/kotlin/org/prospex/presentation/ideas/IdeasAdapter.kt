@@ -7,32 +7,42 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import org.prospex.R
 import org.prospex.domain.models.Idea
 
-class IdeasAdapter : ListAdapter<Idea, IdeasAdapter.IdeaViewHolder>(IdeaDiffCallback()) {
+class IdeasAdapter(
+    private val onDetailsClick: (Idea) -> Unit
+) : ListAdapter<Idea, IdeasAdapter.IdeaViewHolder>(IdeaDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdeaViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_idea, parent, false)
-        return IdeaViewHolder(view)
+        return IdeaViewHolder(view, onDetailsClick)
     }
 
     override fun onBindViewHolder(holder: IdeaViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class IdeaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class IdeaViewHolder(
+        itemView: View,
+        private val onDetailsClick: (Idea) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val titleText: TextView = itemView.findViewById(R.id.titleText)
         private val descriptionText: TextView = itemView.findViewById(R.id.descriptionText)
         private val scoreText: TextView = itemView.findViewById(R.id.scoreText)
         private val legalTypeText: TextView = itemView.findViewById(R.id.legalTypeText)
+        private val detailsButton: MaterialButton = itemView.findViewById(R.id.detailsButton)
 
         fun bind(idea: Idea) {
             titleText.text = idea.title
             descriptionText.text = idea.description
             scoreText.text = "Оценка: ${idea.score.value}"
             legalTypeText.text = getLegalTypeText(idea.legalType)
+            detailsButton.setOnClickListener {
+                onDetailsClick(idea)
+            }
         }
 
         private fun getLegalTypeText(legalType: org.prospex.domain.models.LegalType): String {

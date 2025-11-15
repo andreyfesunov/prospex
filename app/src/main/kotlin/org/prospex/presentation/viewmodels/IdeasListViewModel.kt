@@ -6,14 +6,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.prospex.application.usecases.DeleteIdeaUseCase
 import org.prospex.application.usecases.GetIdeasUseCase
 import org.prospex.application.utilities.Result
 import org.prospex.domain.models.Idea
 import org.prospex.domain.models.PageModel
 import org.prospex.domain.value_objects.Positive
+import java.util.UUID
 
 class IdeasListViewModel(
-    private val getIdeasUseCase: GetIdeasUseCase
+    private val getIdeasUseCase: GetIdeasUseCase,
+    private val deleteIdeaUseCase: DeleteIdeaUseCase
 ) : ViewModel() {
 
     private val _ideasState = MutableStateFlow<IdeasState>(IdeasState.Loading)
@@ -85,6 +88,15 @@ class IdeasListViewModel(
     fun refresh() {
         _currentPage.value = 1
         loadIdeas()
+    }
+
+    fun deleteIdea(ideaId: UUID) {
+        viewModelScope.launch {
+            val result = deleteIdeaUseCase.execute(ideaId)
+            if (result is Result.Success) {
+                refresh()
+            }
+        }
     }
 }
 

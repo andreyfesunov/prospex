@@ -11,6 +11,7 @@ interface ISurveyRepository {
     suspend fun create(questionOption: QuestionOption)
     suspend fun create(surveyResponse: SurveyResponse)
     suspend fun update(surveyResponse: SurveyResponse)
+    suspend fun getSurveyResponse(ideaId: UUID): SurveyResponse?
     suspend fun getQuestionsByLegalType(legalType: LegalType): Array<Question>
     suspend fun getQuestionsByOptionIds(optionIds: Array<UUID>): Array<Question>
     suspend fun getOptionsByIds(ids: Array<UUID>): Array<QuestionOption>

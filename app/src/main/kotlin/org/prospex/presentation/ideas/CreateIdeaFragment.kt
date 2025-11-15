@@ -53,8 +53,14 @@ class CreateIdeaFragment : Fragment() {
         binding.createButton.setOnClickListener {
             val title = binding.titleEditText.text.toString()
             val description = binding.descriptionEditText.text.toString()
+            val selectedPosition = binding.legalTypeSpinner.selectedItemPosition
             if (title.isNotBlank() && description.isNotBlank()) {
-                viewModel.createIdea(title, description)
+                if (selectedPosition >= 0) {
+                    viewModel.createIdea(title, description)
+                } else {
+                    binding.errorText.text = "Выберите тип юридического лица"
+                    binding.errorText.visibility = View.VISIBLE
+                }
             } else {
                 binding.errorText.text = "Заполните все поля"
                 binding.errorText.visibility = View.VISIBLE

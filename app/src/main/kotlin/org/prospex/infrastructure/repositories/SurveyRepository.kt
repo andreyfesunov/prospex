@@ -60,6 +60,14 @@ class SurveyRepository(
         )
     }
 
+    override suspend fun getSurveyResponse(ideaId: UUID): SurveyResponse? {
+        val entity = surveyResponseDao.getByIdeaId(ideaId.toString()) ?: return null
+        return SurveyResponse(
+            ideaId = UUID.fromString(entity.ideaId),
+            optionIds = SurveyResponseEntity.toDomainOptionIds(entity.optionIds)
+        )
+    }
+
     override suspend fun getQuestionsByLegalType(legalType: LegalType): Array<Question> {
         val entities = questionDao.getByLegalType(legalType.name)
         return entities.map { entity ->

@@ -4,6 +4,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.prospex.application.usecases.CreateIdeaUseCase
+import org.prospex.application.usecases.DeleteIdeaUseCase
 import org.prospex.application.usecases.GetIdeasUseCase
 import org.prospex.application.usecases.SignInUseCase
 import org.prospex.application.usecases.SignUpUseCase
@@ -56,6 +57,7 @@ object AppModule {
 
             // UseCases
             single { CreateIdeaUseCase(get(), get(), get(), get()) }
+            single { DeleteIdeaUseCase(get(), get(), get()) }
             single { GetIdeasUseCase(get(), get()) }
             single { SignInUseCase(get()) }
             single { SignUpUseCase(get(), get(), get()) }

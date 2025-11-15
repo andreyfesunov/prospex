@@ -23,5 +23,8 @@ interface IdeaDao {
     
     @Query("SELECT COUNT(*) FROM ideas WHERE user_id = :userId")
     suspend fun countByUserId(userId: String): Int
+    
+    @androidx.room.Delete
+    suspend fun delete(idea: IdeaEntity)
 }
 

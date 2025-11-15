@@ -32,7 +32,14 @@ class IdeasListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = IdeasAdapter()
+        adapter = IdeasAdapter(
+            onDetailsClick = { idea ->
+                val bundle = Bundle().apply {
+                    putString("ideaId", idea.id.toString())
+                }
+                findNavController().navigate(R.id.nav_idea_details, bundle)
+            }
+        )
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
