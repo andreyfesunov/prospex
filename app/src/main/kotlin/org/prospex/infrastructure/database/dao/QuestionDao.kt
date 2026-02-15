@@ -11,7 +11,7 @@ interface QuestionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(question: QuestionEntity)
     
-    @Query("SELECT * FROM questions WHERE legal_type = :legalType")
+    @Query("SELECT * FROM questions WHERE legal_type = :legalType ORDER BY block_order ASC, id ASC")
     suspend fun getByLegalType(legalType: String): List<QuestionEntity>
     
     @Query("SELECT DISTINCT q.* FROM questions q INNER JOIN question_options qo ON q.id = qo.questionId WHERE qo.id IN (:optionIds)")

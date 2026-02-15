@@ -4,6 +4,7 @@ import org.prospex.application.utilities.IAuthContext
 import org.prospex.application.utilities.Result
 import org.prospex.application.utilities.UseCase
 import org.prospex.domain.models.Idea
+import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.PageModel
 import org.prospex.domain.repositories.IIdeaRepository
 import org.prospex.domain.repositories.IdeaFilters
@@ -15,7 +16,8 @@ class GetIdeasUseCase(
 ) : UseCase<GetIdeasUseCase.Params, PageModel<Idea>> {
     data class Params(
         val page: Positive,
-        val pageSize: Positive
+        val pageSize: Positive,
+        val legalType: LegalType? = null
     )
 
     override suspend fun execute(params: Params): Result<PageModel<Idea>> {
@@ -23,7 +25,8 @@ class GetIdeasUseCase(
             IdeaFilters(
                 userId = authContext.getUserId(),
                 page = params.page,
-                pageSize = params.pageSize
+                pageSize = params.pageSize,
+                legalType = params.legalType
             )
         )
 

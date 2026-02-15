@@ -12,13 +12,14 @@ import org.prospex.R
 import org.prospex.domain.models.Idea
 
 class IdeasAdapter(
-    private val onDetailsClick: (Idea) -> Unit
+    private val onDetailsClick: (Idea) -> Unit,
+    private val onReportClick: (Idea) -> Unit
 ) : ListAdapter<Idea, IdeasAdapter.IdeaViewHolder>(IdeaDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdeaViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_idea, parent, false)
-        return IdeaViewHolder(view, onDetailsClick)
+        return IdeaViewHolder(view, onDetailsClick, onReportClick)
     }
 
     override fun onBindViewHolder(holder: IdeaViewHolder, position: Int) {
@@ -27,22 +28,23 @@ class IdeasAdapter(
 
     class IdeaViewHolder(
         itemView: View,
-        private val onDetailsClick: (Idea) -> Unit
+        private val onDetailsClick: (Idea) -> Unit,
+        private val onReportClick: (Idea) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
         private val titleText: TextView = itemView.findViewById(R.id.titleText)
         private val descriptionText: TextView = itemView.findViewById(R.id.descriptionText)
         private val scoreText: TextView = itemView.findViewById(R.id.scoreText)
         private val legalTypeText: TextView = itemView.findViewById(R.id.legalTypeText)
         private val detailsButton: MaterialButton = itemView.findViewById(R.id.detailsButton)
+        private val reportButton: MaterialButton = itemView.findViewById(R.id.reportButton)
 
         fun bind(idea: Idea) {
             titleText.text = idea.title
             descriptionText.text = idea.description
             scoreText.text = "Оценка: ${idea.score.value}"
             legalTypeText.text = getLegalTypeText(idea.legalType)
-            detailsButton.setOnClickListener {
-                onDetailsClick(idea)
-            }
+            detailsButton.setOnClickListener { onDetailsClick(idea) }
+            reportButton.setOnClickListener { onReportClick(idea) }
         }
 
         private fun getLegalTypeText(legalType: org.prospex.domain.models.LegalType): String {
@@ -62,7 +64,8 @@ class IdeasAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Idea, newItem: Idea): Boolean {
-            return oldItem == newItem
+            return oldItem.title == newItem.title && oldItem.description == newItem.description &&
+                oldItem.legalType == newItem.legalType && oldItem.score.value == newItem.score.value
         }
     }
 }

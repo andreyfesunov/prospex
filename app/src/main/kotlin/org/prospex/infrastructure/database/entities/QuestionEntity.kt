@@ -15,21 +15,25 @@ data class QuestionEntity(
     @ColumnInfo(name = "legal_type")
     var legalType: String = "",
     @ColumnInfo(name = "type")
-    var type: String = ""
+    var type: String = "",
+    @ColumnInfo(name = "block_order")
+    var blockOrder: Int = 1
 ) {
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", 1)
     companion object {
         fun fromDomain(
             id: UUID,
             text: String,
             legalType: String,
-            type: String
+            type: String,
+            blockOrder: Int = 1
         ): QuestionEntity {
             return QuestionEntity(
                 id.toString(),
                 text,
                 legalType,
-                type
+                type,
+                blockOrder
             )
         }
     }

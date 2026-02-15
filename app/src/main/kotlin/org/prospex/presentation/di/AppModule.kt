@@ -14,12 +14,16 @@ import org.prospex.application.utilities.IUnitOfWork
 import org.prospex.infrastructure.utilities.ISettableAuthContext
 import org.prospex.domain.repositories.IAuthRepository
 import org.prospex.domain.repositories.IIdeaRepository
+import org.prospex.domain.repositories.IEntrepreneurshipFormRepository
+import org.prospex.domain.repositories.ILegalTypeSurveyRepository
 import org.prospex.domain.repositories.ISupportMeasureRepository
 import org.prospex.domain.repositories.ISurveyRepository
 import org.prospex.domain.repositories.IUserRepository
 import org.prospex.infrastructure.database.ProspexDatabase
 import org.prospex.infrastructure.repositories.AuthRepository
+import org.prospex.infrastructure.repositories.EntrepreneurshipFormRepository
 import org.prospex.infrastructure.repositories.IdeaRepository
+import org.prospex.infrastructure.repositories.LegalTypeSurveyRepository
 import org.prospex.infrastructure.repositories.SupportMeasureRepository
 import org.prospex.infrastructure.repositories.SurveyRepository
 import org.prospex.infrastructure.repositories.UserRepository
@@ -41,6 +45,9 @@ object AppModule {
             single { get<ProspexDatabase>().questionOptionDao() }
             single { get<ProspexDatabase>().surveyResponseDao() }
             single { get<ProspexDatabase>().supportMeasureDao() }
+            single { get<ProspexDatabase>().entrepreneurshipFormDao() }
+            single { get<ProspexDatabase>().legalTypeSurveyQuestionDao() }
+            single { get<ProspexDatabase>().legalTypeSurveyOptionDao() }
             
             // Utils
             single<IUnitOfWork> { org.prospex.infrastructure.utilities.UnitOfWork(get()) }
@@ -54,6 +61,8 @@ object AppModule {
             single<ISupportMeasureRepository> { SupportMeasureRepository(get()) }
             single<ISurveyRepository> { SurveyRepository(get(), get(), get()) }
             single<IUserRepository> { UserRepository(get()) }
+            single<IEntrepreneurshipFormRepository> { EntrepreneurshipFormRepository(get()) }
+            single<ILegalTypeSurveyRepository> { LegalTypeSurveyRepository(get(), get()) }
 
             // UseCases
             single { CreateIdeaUseCase(get(), get(), get(), get()) }
@@ -66,6 +75,8 @@ object AppModule {
             // Seeders
             single { org.prospex.infrastructure.seeders.QuestionSeeder(get()) }
             single { org.prospex.infrastructure.seeders.SupportMeasureSeeder(get()) }
+            single { org.prospex.infrastructure.seeders.EntrepreneurshipFormSeeder(get()) }
+            single { org.prospex.infrastructure.seeders.LegalTypeSurveySeeder(get()) }
         }
     }
 }

@@ -6,6 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
+import org.prospex.infrastructure.seeders.EntrepreneurshipFormSeeder
+import org.prospex.infrastructure.seeders.LegalTypeSurveySeeder
 import org.prospex.infrastructure.seeders.QuestionSeeder
 import org.prospex.infrastructure.seeders.SupportMeasureSeeder
 import org.prospex.presentation.di.Koin
@@ -23,6 +25,12 @@ class ProspexApplication : Application() {
             
             val supportMeasureSeeder = GlobalContext.get().get<SupportMeasureSeeder>()
             supportMeasureSeeder.seedIfEmpty()
+
+            val entrepreneurshipFormSeeder = GlobalContext.get().get<EntrepreneurshipFormSeeder>()
+            entrepreneurshipFormSeeder.seedIfEmpty()
+
+            val legalTypeSurveySeeder = GlobalContext.get().get<LegalTypeSurveySeeder>()
+            legalTypeSurveySeeder.seedIfEmpty()
         }
     }
 }

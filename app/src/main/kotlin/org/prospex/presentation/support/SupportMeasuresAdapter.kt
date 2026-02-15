@@ -69,7 +69,10 @@ class SupportMeasuresAdapter : ListAdapter<SupportMeasure, SupportMeasuresAdapte
         }
 
         override fun areContentsTheSame(oldItem: SupportMeasure, newItem: SupportMeasure): Boolean {
-            return oldItem == newItem
+            return oldItem.title == newItem.title && oldItem.measureType == newItem.measureType &&
+                oldItem.legalTypes.contentEquals(newItem.legalTypes) && oldItem.amount == newItem.amount &&
+                oldItem.features == newItem.features && oldItem.covers == newItem.covers &&
+                oldItem.whereToApply == newItem.whereToApply
         }
     }
 }

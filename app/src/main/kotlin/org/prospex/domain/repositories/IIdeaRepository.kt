@@ -1,6 +1,7 @@
 package org.prospex.domain.repositories
 
 import org.prospex.domain.models.Idea
+import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.PageModel
 import org.prospex.domain.value_objects.Positive
 import java.util.*
@@ -16,5 +17,6 @@ interface IIdeaRepository {
 data class IdeaFilters(
     val userId: UUID,
     val page: Positive,
-    val pageSize: Positive
+    val pageSize: Positive,
+    val legalType: LegalType? = null
 )

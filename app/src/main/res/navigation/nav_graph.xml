@@ -15,7 +15,12 @@
         android:id="@+id/nav_create_idea"
         android:name="org.prospex.presentation.ideas.CreateIdeaFragment"
         android:label="@string/create_idea"
-        tools:layout="@layout/fragment_create_idea" />
+        tools:layout="@layout/fragment_create_idea">
+        <argument
+            android:name="suggestedLegalType"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_idea_details"
@@ -28,10 +33,48 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_idea_report"
+        android:name="org.prospex.presentation.ideas.IdeaReportFragment"
+        android:label="@string/idea_report"
+        tools:layout="@layout/fragment_idea_report">
+        <argument
+            android:name="ideaId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_support_measures"
         android:name="org.prospex.presentation.support.SupportMeasuresFragment"
         android:label="@string/support_measures"
         tools:layout="@layout/fragment_support_measures" />
+
+    <fragment
+        android:id="@+id/nav_compare_ideas"
+        android:name="org.prospex.presentation.ideas.CompareIdeasFragment"
+        android:label="@string/compare_ideas"
+        tools:layout="@layout/fragment_compare_ideas" />
+
+    <fragment
+        android:id="@+id/nav_entrepreneurship_forms"
+        android:name="org.prospex.presentation.entrepreneurship.EntrepreneurshipFormsFragment"
+        android:label="@string/entrepreneurship_forms"
+        tools:layout="@layout/fragment_entrepreneurship_forms" />
+
+    <fragment
+        android:id="@+id/nav_legal_type_survey"
+        android:name="org.prospex.presentation.legaltype.LegalTypeSurveyFragment"
+        android:label="@string/legal_type_survey"
+        tools:layout="@layout/fragment_legal_type_survey" />
+
+    <fragment
+        android:id="@+id/nav_legal_type_recommendation"
+        android:name="org.prospex.presentation.legaltype.LegalTypeRecommendationFragment"
+        android:label="@string/legal_type_recommendation"
+        tools:layout="@layout/fragment_legal_type_recommendation">
+        <argument
+            android:name="recommendedLegalType"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
 

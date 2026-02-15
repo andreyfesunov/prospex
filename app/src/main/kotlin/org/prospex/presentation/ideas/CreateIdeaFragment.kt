@@ -42,6 +42,17 @@ class CreateIdeaFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
+        arguments?.getString("suggestedLegalType")?.let { name ->
+            try {
+                val legalType = LegalType.valueOf(name)
+                val index = LegalType.entries.indexOf(legalType)
+                if (index >= 0) {
+                    binding.legalTypeSpinner.setSelection(index)
+                    viewModel.loadQuestions(legalType)
+                }
+            } catch (_: Exception) {}
+        }
+
         binding.loadQuestionsButton.setOnClickListener {
             val selectedPosition = binding.legalTypeSpinner.selectedItemPosition
             if (selectedPosition >= 0) {

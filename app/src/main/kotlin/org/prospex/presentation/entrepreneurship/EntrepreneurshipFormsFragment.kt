@@ -1,4 +1,4 @@
-package org.prospex.presentation.ideas
+package org.prospex.presentation.entrepreneurship
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,73 +6,52 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
-import org.prospex.R
-import org.prospex.databinding.FragmentIdeasListBinding
-import org.prospex.presentation.viewmodels.IdeasListViewModel
+import org.prospex.databinding.FragmentEntrepreneurshipFormsBinding
+import org.prospex.presentation.viewmodels.EntrepreneurshipFormsState
+import org.prospex.presentation.viewmodels.EntrepreneurshipFormsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class IdeasListFragment : Fragment() {
-    private var _binding: FragmentIdeasListBinding? = null
+class EntrepreneurshipFormsFragment : Fragment() {
+    private var _binding: FragmentEntrepreneurshipFormsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: IdeasListViewModel by viewModel()
-    private lateinit var adapter: IdeasAdapter
+    private val viewModel: EntrepreneurshipFormsViewModel by viewModel()
+    private lateinit var adapter: EntrepreneurshipFormAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentIdeasListBinding.inflate(inflater, container, false)
+        _binding = FragmentEntrepreneurshipFormsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        adapter = IdeasAdapter(
-            onDetailsClick = { idea ->
-                findNavController().navigate(R.id.nav_idea_details, Bundle().apply {
-                    putString("ideaId", idea.id.toString())
-                })
-            },
-            onReportClick = { idea ->
-                findNavController().navigate(R.id.nav_idea_report, Bundle().apply {
-                    putString("ideaId", idea.id.toString())
-                })
-            }
-        )
+        adapter = EntrepreneurshipFormAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.nav_create_idea)
-        }
-
         setupObservers()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.refresh()
+        viewModel.loadForms()
     }
 
     private fun setupObservers() {
         lifecycleScope.launch {
-            viewModel.ideasState.collect { state ->
+            viewModel.state.collect { state ->
                 when (state) {
-                    is org.prospex.presentation.viewmodels.IdeasState.Loading -> {
+                    is EntrepreneurshipFormsState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.errorText.visibility = View.GONE
                     }
-                    is org.prospex.presentation.viewmodels.IdeasState.Success -> {
+                    is EntrepreneurshipFormsState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.errorText.visibility = View.GONE
-                        adapter.submitList(state.pageModel.items.toList())
+                        adapter.submitList(state.forms.toList())
                     }
-                    is org.prospex.presentation.viewmodels.IdeasState.Error -> {
+                    is EntrepreneurshipFormsState.Error -> {
                         binding.progressBar.visibility = View.GONE
                         binding.errorText.text = state.message
                         binding.errorText.visibility = View.VISIBLE
@@ -87,4 +66,3 @@ class IdeasListFragment : Fragment() {
         _binding = null
     }
 }
-

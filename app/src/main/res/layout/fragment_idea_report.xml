@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,70 +20,49 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/descriptionText"
+            android:id="@+id/totalScoreText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_marginBottom="16dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <TextView
-                android:id="@+id/scoreText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/legalTypeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="italic" />
-
-        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Вопросы и ответы:"
-            android:textSize="18sp"
+            android:text="@string/idea_report_blocks_section"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            tools:text="Баллы по блокам" />
 
         <LinearLayout
-            android:id="@+id/questionsContainer"
+            android:id="@+id/blocksContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/reportButton"
+        <TextView
+            android:id="@+id/suitableMeasuresTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/idea_report"
-            android:layout_marginTop="16dp" />
+            android:text="@string/idea_report_suitable_measures"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/deleteButton"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/measuresRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/delete_idea"
-            android:layout_marginTop="16dp"
-            app:backgroundTint="@android:color/holo_red_dark" />
+            android:nestedScrollingEnabled="false" />
 
         <TextView
             android:id="@+id/errorText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_dark"
-            android:layout_marginTop="16dp"
             android:visibility="gone" />
 
         <ProgressBar
@@ -90,10 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
             android:visibility="gone" />
 
     </LinearLayout>
 
-</ScrollView>
-
+</androidx.core.widget.NestedScrollView>

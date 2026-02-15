@@ -26,7 +26,8 @@ class SurveyRepository(
                 question.id,
                 question.text,
                 question.legalType.name,
-                question.type.name
+                question.type.name,
+                question.blockOrder
             )
         )
     }
@@ -75,7 +76,8 @@ class SurveyRepository(
                 id = UUID.fromString(entity.id),
                 text = entity.text,
                 legalType = LegalType.valueOf(entity.legalType),
-                type = QuestionType.valueOf(entity.type)
+                type = QuestionType.valueOf(entity.type),
+                blockOrder = entity.blockOrder
             )
         }.toTypedArray()
     }
@@ -88,7 +90,8 @@ class SurveyRepository(
                 id = UUID.fromString(entity.id),
                 text = entity.text,
                 legalType = LegalType.valueOf(entity.legalType),
-                type = QuestionType.valueOf(entity.type)
+                type = QuestionType.valueOf(entity.type),
+                blockOrder = entity.blockOrder
             )
         }.toTypedArray()
     }

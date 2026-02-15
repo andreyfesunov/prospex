@@ -34,7 +34,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какая у вас бизнес-модель?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_1)
         surveyRepository.create(QuestionOption(
@@ -60,7 +61,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько детально просчитана финансовая модель?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_2)
         surveyRepository.create(QuestionOption(
@@ -86,7 +88,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какова доля собственных/привлеченных средств в стартовых затратах?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_3)
         surveyRepository.create(QuestionOption(
@@ -112,7 +115,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Каков план по достижению финансовой самоокупаемости?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_4)
         surveyRepository.create(QuestionOption(
@@ -138,7 +142,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько точно определена и измеряема ваша целевая социальная группа?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_1)
         surveyRepository.create(QuestionOption(
@@ -164,7 +169,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Как вы будете измерять и оценивать социальные результаты? (KPI воздействия)",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_2)
         surveyRepository.create(QuestionOption(
@@ -190,7 +196,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какую конкретную социальную проблему и на каком уровне вы решаете?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_3)
         surveyRepository.create(QuestionOption(
@@ -216,7 +223,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Как ваш проект интегрирует целевую группу в экономику и общество?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_4)
         surveyRepository.create(QuestionOption(
@@ -242,7 +250,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Есть ли у вас партнеры (НКО, госучреждения, бизнес) для усиления воздействия?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_5)
         surveyRepository.create(QuestionOption(
@@ -268,7 +277,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какова ваша основная ценность для «платящих» клиентов?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_1)
         surveyRepository.create(QuestionOption(
@@ -294,7 +304,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проработаны ли каналы привлечения клиентов/потребителей?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_2)
         surveyRepository.create(QuestionOption(
@@ -320,7 +331,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Решены ли вопросы с помещением, оборудованием и инфраструктурой, доступной для всех?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_3)
         surveyRepository.create(QuestionOption(
@@ -346,7 +358,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Разработана ли организационная структура и прописаны ли роли?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_4)
         surveyRepository.create(QuestionOption(
@@ -372,7 +385,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Есть ли в команде сочетание предпринимательских и социальных компетенций?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(q4_1)
         surveyRepository.create(QuestionOption(
@@ -398,7 +412,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Есть ли понимание правового регулирования (в т.ч. получение статуса соцпредприятия)?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(q4_2)
         surveyRepository.create(QuestionOption(
@@ -424,7 +439,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проработаны ли риски (репутационные, зависимость от ключевого сотрудника-энтузиаста, выгорание)?",
             legalType = LegalType.SocialEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 5
         )
         surveyRepository.create(q5_1)
         surveyRepository.create(QuestionOption(
@@ -452,7 +468,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Разработана ли детальная финансовая модель на первые 2-3 года?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 1
             )
             surveyRepository.create(q1_1)
             surveyRepository.create(QuestionOption(
@@ -478,7 +495,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Какова структура финансирования стартовых затрат?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 1
             )
             surveyRepository.create(q1_2)
             surveyRepository.create(QuestionOption(
@@ -504,7 +522,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Рассчитаны ли ключевые финансовые показатели (точка безубыточности, ROI, рентабельность)?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 1
             )
             surveyRepository.create(q1_3)
             surveyRepository.create(QuestionOption(
@@ -530,7 +549,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Каков планируемый срок окупаемости инвестиций (PP) и внутренняя норма доходности (IRR)?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 1
             )
             surveyRepository.create(q1_4)
             surveyRepository.create(QuestionOption(
@@ -556,7 +576,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Проведено ли углубленное маркетинговое исследование (объем рынка, динамика, ключевые игроки)?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 2
             )
             surveyRepository.create(q2_1)
             surveyRepository.create(QuestionOption(
@@ -582,7 +603,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Сформулирована ли конкурентная стратегия компании?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 2
             )
             surveyRepository.create(q2_2)
             surveyRepository.create(QuestionOption(
@@ -608,7 +630,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Разработан ли комплексный маркетинговый и коммерческий план?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 2
             )
             surveyRepository.create(q2_3)
             surveyRepository.create(QuestionOption(
@@ -634,7 +657,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Насколько бизнес-модель устойчива к кризисам и изменению конъюнктуры?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 2
             )
             surveyRepository.create(q2_4)
             surveyRepository.create(QuestionOption(
@@ -660,7 +684,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Какой вклад вносит проект в экономику региона (налоги, импортозамещение, кооперация)?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 2
             )
             surveyRepository.create(q2_5)
             surveyRepository.create(QuestionOption(
@@ -686,7 +711,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Проработана ли вся операционная цепочка (снабжение, производство, логистика, контроль качества)?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 3
             )
             surveyRepository.create(q3_1)
             surveyRepository.create(QuestionOption(
@@ -712,7 +738,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Решены ли вопросы с производственными площадями, оборудованием и его обслуживанием?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 3
             )
             surveyRepository.create(q3_2)
             surveyRepository.create(QuestionOption(
@@ -738,7 +765,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Разработана ли организационная структура и штатное расписание?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 3
             )
             surveyRepository.create(q3_3)
             surveyRepository.create(QuestionOption(
@@ -764,7 +792,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Есть ли план по обеспечению необходимыми лицензиями, сертификатами и патентами?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 3
             )
             surveyRepository.create(q3_4)
             surveyRepository.create(QuestionOption(
@@ -790,7 +819,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Сбалансирована ли команда учредителей (есть компетенции в менеджменте, финансах, продажах, производстве)?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 4
             )
             surveyRepository.create(q4_1)
             surveyRepository.create(QuestionOption(
@@ -816,7 +846,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Разработана ли система юридического и бухгалтерского сопровождения?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 4
             )
             surveyRepository.create(q4_2)
             surveyRepository.create(QuestionOption(
@@ -842,7 +873,8 @@ class QuestionSeeder(
                 id = UUID.randomUUID(),
                 text = "Разработан ли комплексный план по управлению рисками (финансовыми, операционными, рыночными) и есть ли стратегия выхода?",
                 legalType = LegalType.LLC,
-                type = QuestionType.Radio
+                type = QuestionType.Radio,
+                blockOrder = 5
             )
             surveyRepository.create(q5_1)
             surveyRepository.create(QuestionOption(
@@ -870,7 +902,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько детально вы просчитали стартовые инвестиции?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_1)
         surveyRepository.create(QuestionOption(
@@ -896,7 +929,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какова доля ваших собственных средств в общем объеме инвестиций?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_2)
         surveyRepository.create(QuestionOption(
@@ -928,7 +962,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Рассчитан ли у вас план движения денежных средств (Cash Flow) на первые 6-12 месяцев?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_3)
         surveyRepository.create(QuestionOption(
@@ -954,7 +989,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Каков расчетный срок окупаемости проекта?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_4)
         surveyRepository.create(QuestionOption(
@@ -986,7 +1022,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Сформулировано ли ваше Уникальное Торговое Предложение (УТП)?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_1)
         surveyRepository.create(QuestionOption(
@@ -1012,7 +1049,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проводили ли вы анализ конкурентов (цены, ассортимент, слабые стороны)?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_2)
         surveyRepository.create(QuestionOption(
@@ -1038,7 +1076,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какой у вас план продвижения и рекламный бюджет на первые 3 месяца?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_3)
         surveyRepository.create(QuestionOption(
@@ -1064,7 +1103,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Определены ли ваши каналы сбыта?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_4)
         surveyRepository.create(QuestionOption(
@@ -1090,7 +1130,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько ваш бизнес социально значим для муниципалитета?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_5)
         surveyRepository.create(QuestionOption(
@@ -1116,7 +1157,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Решен ли вопрос с помещением?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_1)
         surveyRepository.create(QuestionOption(
@@ -1142,7 +1184,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проработаны ли цепочки поставок сырья/товаров?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_2)
         surveyRepository.create(QuestionOption(
@@ -1168,7 +1211,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Планируете ли вы нанимать сотрудников?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_3)
         surveyRepository.create(QuestionOption(
@@ -1194,7 +1238,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Выбран ли режим налогообложения и понимаете ли вы налоговую нагрузку?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_4)
         surveyRepository.create(QuestionOption(
@@ -1220,7 +1265,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Наличие профильного опыта и образования.",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(q4_1)
         surveyRepository.create(QuestionOption(
@@ -1246,7 +1292,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Готовы ли вы к полному документообороту (касса, отчетность в налоговую, договоры)?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(q4_2)
         surveyRepository.create(QuestionOption(
@@ -1272,7 +1319,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проработаны ли основные риски (падение спроса, рост цен, проблемы с поставками)?",
             legalType = LegalType.PersonalSubsidiaryFarm,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 5
         )
         surveyRepository.create(q5_1)
         surveyRepository.create(QuestionOption(
@@ -1300,7 +1348,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько детально вы просчитали стартовые инвестиции?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_1)
         surveyRepository.create(QuestionOption(
@@ -1326,7 +1375,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какова доля ваших собственных средств в общем объеме инвестиций?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_2)
         surveyRepository.create(QuestionOption(
@@ -1358,7 +1408,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Рассчитан ли у вас план движения денежных средств (Cash Flow) на первые 6-12 месяцев?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_3)
         surveyRepository.create(QuestionOption(
@@ -1384,7 +1435,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Каков расчетный срок окупаемости проекта?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(q1_4)
         surveyRepository.create(QuestionOption(
@@ -1416,7 +1468,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Сформулировано ли ваше Уникальное Торговое Предложение (УТП)?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_1)
         surveyRepository.create(QuestionOption(
@@ -1442,7 +1495,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проводили ли вы анализ конкурентов (цены, ассортимент, слабые стороны)?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_2)
         surveyRepository.create(QuestionOption(
@@ -1468,7 +1522,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какой у вас план продвижения и рекламный бюджет на первые 3 месяца?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_3)
         surveyRepository.create(QuestionOption(
@@ -1494,7 +1549,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Определены ли ваши каналы сбыта?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_4)
         surveyRepository.create(QuestionOption(
@@ -1520,7 +1576,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько ваш бизнес социально значим для муниципалитета?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(q2_5)
         surveyRepository.create(QuestionOption(
@@ -1546,7 +1603,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Решен ли вопрос с помещением?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_1)
         surveyRepository.create(QuestionOption(
@@ -1572,7 +1630,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проработаны ли цепочки поставок сырья/товаров?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_2)
         surveyRepository.create(QuestionOption(
@@ -1598,7 +1657,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Планируете ли вы нанимать сотрудников?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_3)
         surveyRepository.create(QuestionOption(
@@ -1624,7 +1684,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Выбран ли режим налогообложения и понимаете ли вы налоговую нагрузку?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(q3_4)
         surveyRepository.create(QuestionOption(
@@ -1650,7 +1711,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Наличие профильного опыта и образования.",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(q4_1)
         surveyRepository.create(QuestionOption(
@@ -1676,7 +1738,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Готовы ли вы к полному документообороту (касса, отчетность в налоговую, договоры)?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(q4_2)
         surveyRepository.create(QuestionOption(
@@ -1702,7 +1765,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Проработаны ли основные риски (падение спроса, рост цен, проблемы с поставками)?",
             legalType = LegalType.IndividualEntrepreneur,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 5
         )
         surveyRepository.create(q5_1)
         surveyRepository.create(QuestionOption(

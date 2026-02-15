@@ -1,5 +1,6 @@
 package org.prospex.infrastructure.repositories
 
+import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.SupportMeasure
 import org.prospex.domain.repositories.ISupportMeasureRepository
 import org.prospex.infrastructure.database.dao.SupportMeasureDao
@@ -16,6 +17,12 @@ class SupportMeasureRepository(
     
     override suspend fun getAll(): Array<SupportMeasure> {
         return supportMeasureDao.getAll()
+            .map { SupportMeasureEntity.toDomain(it) }
+            .toTypedArray()
+    }
+
+    override suspend fun getByLegalType(legalType: LegalType): Array<SupportMeasure> {
+        return supportMeasureDao.getByLegalType(legalType.name)
             .map { SupportMeasureEntity.toDomain(it) }
             .toTypedArray()
     }

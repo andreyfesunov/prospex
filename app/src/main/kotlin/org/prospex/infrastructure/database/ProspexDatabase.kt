@@ -15,9 +15,12 @@ import org.prospex.infrastructure.database.entities.*
         QuestionEntity::class,
         QuestionOptionEntity::class,
         SurveyResponseEntity::class,
-        SupportMeasureEntity::class
+        SupportMeasureEntity::class,
+        EntrepreneurshipFormEntity::class,
+        LegalTypeSurveyQuestionEntity::class,
+        LegalTypeSurveyOptionEntity::class
     ],
-    version = 2,
+    version = 5,
     exportSchema = false
 )
 abstract class ProspexDatabase : RoomDatabase() {
@@ -28,6 +31,9 @@ abstract class ProspexDatabase : RoomDatabase() {
     abstract fun questionOptionDao(): QuestionOptionDao
     abstract fun surveyResponseDao(): SurveyResponseDao
     abstract fun supportMeasureDao(): SupportMeasureDao
+    abstract fun entrepreneurshipFormDao(): EntrepreneurshipFormDao
+    abstract fun legalTypeSurveyQuestionDao(): LegalTypeSurveyQuestionDao
+    abstract fun legalTypeSurveyOptionDao(): LegalTypeSurveyOptionDao
     
     companion object {
         @Volatile

@@ -40,6 +40,11 @@ class IdeaDetailsFragment : Fragment() {
         binding.deleteButton.setOnClickListener {
             showDeleteConfirmationDialog()
         }
+        binding.reportButton.setOnClickListener {
+            findNavController().navigate(R.id.nav_idea_report, Bundle().apply {
+                putString("ideaId", ideaId.toString())
+            })
+        }
 
         setupObservers()
     }

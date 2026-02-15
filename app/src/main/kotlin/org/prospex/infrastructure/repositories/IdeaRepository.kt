@@ -59,9 +59,14 @@ class IdeaRepository(
     override suspend fun get(filters: IdeaFilters): PageModel<Idea> {
         val offset = ((filters.page.value - 1u) * filters.pageSize.value).toInt()
         val limit = filters.pageSize.value.toInt()
-        
-        val entities = ideaDao.getByUserId(filters.userId.toString(), limit, offset)
-        val totalItems = ideaDao.countByUserId(filters.userId.toString()).toUInt()
+
+        val (entities, totalItems) = if (filters.legalType != null) {
+            ideaDao.getByUserIdAndLegalType(filters.userId.toString(), filters.legalType.name, limit, offset) to
+                ideaDao.countByUserIdAndLegalType(filters.userId.toString(), filters.legalType.name).toUInt()
+        } else {
+            ideaDao.getByUserId(filters.userId.toString(), limit, offset) to
+                ideaDao.countByUserId(filters.userId.toString()).toUInt()
+        }
         
         val items = entities.map { entity ->
             Idea(

@@ -13,6 +13,9 @@ interface SupportMeasureDao {
     
     @Query("SELECT * FROM support_measures ORDER BY measure_type, title")
     suspend fun getAll(): List<SupportMeasureEntity>
+
+    @Query("SELECT * FROM support_measures WHERE instr(',' || legal_types || ',', ',' || :legalType || ',') > 0 ORDER BY measure_type, title")
+    suspend fun getByLegalType(legalType: String): List<SupportMeasureEntity>
     
     @Query("SELECT COUNT(*) FROM support_measures")
     suspend fun count(): Int

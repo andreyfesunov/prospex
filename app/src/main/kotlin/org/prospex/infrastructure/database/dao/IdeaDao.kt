@@ -20,6 +20,12 @@ interface IdeaDao {
     
     @Query("SELECT * FROM ideas WHERE user_id = :userId ORDER BY id LIMIT :limit OFFSET :offset")
     suspend fun getByUserId(userId: String, limit: Int, offset: Int): List<IdeaEntity>
+
+    @Query("SELECT * FROM ideas WHERE user_id = :userId AND legal_type = :legalType ORDER BY id LIMIT :limit OFFSET :offset")
+    suspend fun getByUserIdAndLegalType(userId: String, legalType: String, limit: Int, offset: Int): List<IdeaEntity>
+
+    @Query("SELECT COUNT(*) FROM ideas WHERE user_id = :userId AND legal_type = :legalType")
+    suspend fun countByUserIdAndLegalType(userId: String, legalType: String): Int
     
     @Query("SELECT COUNT(*) FROM ideas WHERE user_id = :userId")
     suspend fun countByUserId(userId: String): Int

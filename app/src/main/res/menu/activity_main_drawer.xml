@@ -12,6 +12,18 @@
             android:id="@+id/nav_support_measures"
             android:icon="@android:drawable/ic_menu_info_details"
             android:title="@string/support_measures" />
+        <item
+            android:id="@+id/nav_compare_ideas"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="@string/compare_ideas" />
+        <item
+            android:id="@+id/nav_entrepreneurship_forms"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/entrepreneurship_forms" />
+        <item
+            android:id="@+id/nav_legal_type_survey"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/legal_type_survey" />
     </group>
 
     <item android:title="@string/account">

@@ -2,10 +2,10 @@ package org.prospex.domain.models
 
 import java.util.*
 
-class Question(
+class LegalTypeSurveyOption(
     val id: UUID,
+    val questionId: UUID,
     val text: String,
     val legalType: LegalType,
-    val type: QuestionType,
-    val blockOrder: Int = 1
+    val score: Int
 )

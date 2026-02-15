@@ -20,5 +20,20 @@
     <string name="delete_idea">Удалить идею</string>
     <string name="delete_idea_confirmation">Вы уверены, что хотите удалить эту идею?</string>
     <string name="support_measures">Меры поддержки</string>
+    <string name="idea_report">Справка об идее</string>
+    <string name="idea_report_total_score">Общая оценка: %d</string>
+    <string name="idea_report_blocks_section">Баллы по блокам</string>
+    <string name="idea_report_block_score">Блок %1$d: %2$d балл(ов)</string>
+    <string name="idea_report_suitable_measures">Подходящие меры поддержки</string>
+    <string name="block_1_title">Блок 1</string>
+    <string name="block_2_title">Блок 2</string>
+    <string name="block_3_title">Блок 3</string>
+    <string name="block_4_title">Блок 4</string>
+    <string name="block_5_title">Блок 5</string>
+    <string name="compare_ideas">Сравнение идей</string>
+    <string name="entrepreneurship_forms">Формы предпринимательства</string>
+    <string name="legal_type_survey">Подбор формы юр. лица</string>
+    <string name="legal_type_recommendation">Рекомендуемая форма</string>
+    <string name="create_idea_with_form">Создать идею с этой формой</string>
 </resources>
 
