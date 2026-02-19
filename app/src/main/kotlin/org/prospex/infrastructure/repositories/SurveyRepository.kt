@@ -124,4 +124,15 @@ class SurveyRepository(
     override suspend fun hasAnyOptions(): Boolean {
         return questionOptionDao.count() > 0
     }
+
+    override suspend fun getMaxScorePerBlock(legalType: LegalType): Map<Int, Int> {
+        val questions = getQuestionsByLegalType(legalType)
+        return (1..5).associateWith { blockOrder ->
+            questions
+                .filter { it.blockOrder == blockOrder }
+                .sumOf { q ->
+                    getOptionsByQuestionId(q.id).maxOfOrNull { it.score.value.toInt() } ?: 0
+                }
+        }
+    }
 }

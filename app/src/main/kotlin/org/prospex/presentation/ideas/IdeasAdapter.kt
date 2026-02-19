@@ -1,13 +1,14 @@
 package org.prospex.presentation.ideas
 
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
 import org.prospex.R
 import org.prospex.domain.models.Idea
 
@@ -35,16 +36,26 @@ class IdeasAdapter(
         private val descriptionText: TextView = itemView.findViewById(R.id.descriptionText)
         private val scoreText: TextView = itemView.findViewById(R.id.scoreText)
         private val legalTypeText: TextView = itemView.findViewById(R.id.legalTypeText)
-        private val detailsButton: MaterialButton = itemView.findViewById(R.id.detailsButton)
-        private val reportButton: MaterialButton = itemView.findViewById(R.id.reportButton)
+        private val overflowButton: View = itemView.findViewById(R.id.overflowButton)
 
         fun bind(idea: Idea) {
             titleText.text = idea.title
             descriptionText.text = idea.description
             scoreText.text = "Оценка: ${idea.score.value}"
             legalTypeText.text = getLegalTypeText(idea.legalType)
-            detailsButton.setOnClickListener { onDetailsClick(idea) }
-            reportButton.setOnClickListener { onReportClick(idea) }
+            overflowButton.setOnClickListener { v ->
+                PopupMenu(v.context, v).apply {
+                    MenuInflater(v.context).inflate(R.menu.menu_idea_overflow, menu)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.action_idea_details -> { onDetailsClick(idea); true }
+                            R.id.action_idea_report -> { onReportClick(idea); true }
+                            else -> false
+                        }
+                    }
+                    show()
+                }
+            }
         }
 
         private fun getLegalTypeText(legalType: org.prospex.domain.models.LegalType): String {

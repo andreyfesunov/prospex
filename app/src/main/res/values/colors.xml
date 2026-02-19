@@ -2,5 +2,13 @@
 <resources>
     <color name="teal_primary">#009688</color>
     <color name="teal_primary_dark">#00796B</color>
+    <color name="score_excellent">#2E7D32</color>
+    <color name="score_very_good">#66BB6A</color>
+    <color name="score_good">#F9A825</color>
+    <color name="score_satisfactory">#FF8F00</color>
+    <color name="score_poor">#C62828</color>
+    <color name="compare_cell_left">#E3F2FD</color>
+    <color name="compare_cell_right">#FFF3E0</color>
+    <color name="compare_divider">#BDBDBD</color>
 </resources>
 

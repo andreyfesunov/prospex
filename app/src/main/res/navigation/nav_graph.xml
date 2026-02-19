@@ -55,6 +55,19 @@
         tools:layout="@layout/fragment_compare_ideas" />
 
     <fragment
+        android:id="@+id/nav_compare_ideas_result"
+        android:name="org.prospex.presentation.ideas.CompareIdeasResultFragment"
+        android:label="@string/compare_ideas"
+        tools:layout="@layout/fragment_compare_ideas_result">
+        <argument
+            android:name="idea1Id"
+            app:argType="string" />
+        <argument
+            android:name="idea2Id"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_entrepreneurship_forms"
         android:name="org.prospex.presentation.entrepreneurship.EntrepreneurshipFormsFragment"
         android:label="@string/entrepreneurship_forms"
@@ -75,6 +88,12 @@
             android:name="recommendedLegalType"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_business_plan_template"
+        android:name="org.prospex.presentation.information.BusinessPlanTemplateFragment"
+        android:label="@string/business_plan_template"
+        tools:layout="@layout/fragment_business_plan_template" />
 
 </navigation>
 

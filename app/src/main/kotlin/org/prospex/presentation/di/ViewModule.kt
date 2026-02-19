@@ -4,6 +4,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.prospex.presentation.viewmodels.AuthViewModel
+import org.prospex.presentation.viewmodels.CompareIdeasResultViewModel
 import org.prospex.presentation.viewmodels.CompareIdeasViewModel
 import org.prospex.presentation.viewmodels.CreateIdeaViewModel
 import org.prospex.presentation.viewmodels.IdeaDetailsViewModel
@@ -22,7 +23,8 @@ object ViewModule {
             viewModel { IdeaDetailsViewModel(get(), get(), get()) }
             viewModel { IdeaReportViewModel(get(), get(), get()) }
             viewModel { SupportMeasuresViewModel(get()) }
-            viewModel { CompareIdeasViewModel(get()) }
+            viewModel { CompareIdeasViewModel(get(), get()) }
+            viewModel { CompareIdeasResultViewModel(get(), get()) }
             viewModel { EntrepreneurshipFormsViewModel(get()) }
             viewModel { LegalTypeSurveyViewModel(get()) }
         }

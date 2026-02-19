@@ -19,35 +19,28 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="4dp" />
 
         <TextView
-            android:id="@+id/descriptionText"
+            android:id="@+id/totalScoreText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="@string/idea_report_blocks_section"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
 
-            <TextView
-                android:id="@+id/scoreText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/legalTypeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textStyle="italic" />
-
-        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/blocksContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
         <ImageButton
             android:id="@+id/overflowButton"
@@ -62,4 +55,3 @@
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
-

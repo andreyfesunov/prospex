@@ -40,8 +40,7 @@
             android:id="@+id/detailsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/details"
-            style="@style/Widget.Material3.Button.TextButton" />
+            android:text="@string/details" />
 
     </LinearLayout>
 

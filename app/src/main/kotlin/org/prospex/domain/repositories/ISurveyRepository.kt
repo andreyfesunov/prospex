@@ -17,4 +17,6 @@ interface ISurveyRepository {
     suspend fun getOptionsByIds(ids: Array<UUID>): Array<QuestionOption>
     suspend fun getOptionsByQuestionId(questionId: UUID): Array<QuestionOption>
     suspend fun hasAnyOptions(): Boolean
+    /** Максимально возможные баллы по каждому блоку (blockOrder -> maxScore) для данного типа юр. лица. */
+    suspend fun getMaxScorePerBlock(legalType: LegalType): Map<Int, Int>
 }

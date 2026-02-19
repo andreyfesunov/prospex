@@ -13,7 +13,7 @@ import org.prospex.domain.repositories.ISupportMeasureRepository
 import org.prospex.domain.repositories.ISurveyRepository
 import java.util.UUID
 
-data class BlockScore(val blockOrder: Int, val score: Int)
+data class BlockScore(val blockOrder: Int, val score: Int, val maxScore: Int)
 
 data class IdeaReportUi(
     val idea: Idea,
@@ -43,6 +43,7 @@ class IdeaReportViewModel(
                 val surveyResponse = surveyRepository.getSurveyResponse(ideaId)
                 val questions = surveyRepository.getQuestionsByLegalType(idea.legalType)
                 val optionIds = surveyResponse?.optionIds?.toSet() ?: emptySet()
+                val maxPerBlock = surveyRepository.getMaxScorePerBlock(idea.legalType)
 
                 val blockScores = (1..5).map { blockOrder ->
                     val blockScore = questions
@@ -50,7 +51,8 @@ class IdeaReportViewModel(
                         .flatMap { q -> surveyRepository.getOptionsByQuestionId(q.id).toList() }
                         .filter { optionIds.contains(it.id) }
                         .sumOf { it.score.value.toInt() }
-                    BlockScore(blockOrder, blockScore)
+                    val maxScore = maxPerBlock[blockOrder] ?: 0
+                    BlockScore(blockOrder, blockScore, maxScore)
                 }
 
                 val measures = supportMeasureRepository.getByLegalType(idea.legalType).toList()

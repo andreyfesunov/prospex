@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -79,9 +80,25 @@ class IdeaReportFragment : Fragment() {
         binding.totalScoreText.text = getString(R.string.idea_report_total_score, report.totalScore)
 
         binding.blocksContainer.removeAllViews()
+        val blockTitleResIds = listOf(
+            R.string.block_1_title, R.string.block_2_title, R.string.block_3_title,
+            R.string.block_4_title, R.string.block_5_title
+        )
         report.blockScores.forEach { blockScore ->
+            val title = getString(blockTitleResIds.getOrNull(blockScore.blockOrder - 1) ?: R.string.block_1_title)
+            val maxScore = blockScore.maxScore.coerceAtLeast(1)
+            val percent = (blockScore.score * 100) / maxScore
+            val (colorRes, levelRes) = when {
+                percent >= 90 -> R.color.score_excellent to R.string.score_level_excellent
+                percent >= 70 -> R.color.score_very_good to R.string.score_level_very_good
+                percent >= 50 -> R.color.score_good to R.string.score_level_good
+                percent >= 30 -> R.color.score_satisfactory to R.string.score_level_satisfactory
+                else -> R.color.score_poor to R.string.score_level_poor
+            }
             val line = TextView(requireContext()).apply {
-                text = getString(R.string.idea_report_block_score, blockScore.blockOrder, blockScore.score)
+                text = getString(R.string.idea_report_block_score, title, blockScore.score, blockScore.maxScore) +
+                    " (" + getString(levelRes) + ")"
+                setTextColor(ContextCompat.getColor(context, colorRes))
                 textSize = 14f
                 setPadding(0, 4, 0, 4)
             }

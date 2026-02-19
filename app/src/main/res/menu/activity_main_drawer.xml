@@ -9,22 +9,37 @@
             android:icon="@android:drawable/ic_menu_view"
             android:title="@string/ideas_list" />
         <item
-            android:id="@+id/nav_support_measures"
-            android:icon="@android:drawable/ic_menu_info_details"
-            android:title="@string/support_measures" />
+            android:id="@+id/nav_create_idea"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/create_idea" />
         <item
             android:id="@+id/nav_compare_ideas"
             android:icon="@android:drawable/ic_menu_sort_by_size"
             android:title="@string/compare_ideas" />
         <item
-            android:id="@+id/nav_entrepreneurship_forms"
-            android:icon="@android:drawable/ic_menu_edit"
-            android:title="@string/entrepreneurship_forms" />
-        <item
             android:id="@+id/nav_legal_type_survey"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="@string/legal_type_survey" />
     </group>
+
+    <item
+        android:title="@string/information"
+        android:icon="@android:drawable/ic_menu_info_details">
+        <menu>
+            <item
+                android:id="@+id/nav_support_measures"
+                android:icon="@android:drawable/ic_menu_help"
+                android:title="@string/support_measures" />
+            <item
+                android:id="@+id/nav_entrepreneurship_forms"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="@string/entrepreneurship_forms" />
+            <item
+                android:id="@+id/nav_business_plan_template"
+                android:icon="@android:drawable/ic_menu_my_calendar"
+                android:title="@string/business_plan_template" />
+        </menu>
+    </item>
 
     <item android:title="@string/account">
         <menu>

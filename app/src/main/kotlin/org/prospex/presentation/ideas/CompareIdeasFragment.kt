@@ -6,23 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.prospex.R
 import org.prospex.databinding.FragmentCompareIdeasBinding
 import org.prospex.domain.models.LegalType
 import org.prospex.presentation.viewmodels.CompareIdeasState
 import org.prospex.presentation.viewmodels.CompareIdeasViewModel
+import org.prospex.presentation.viewmodels.IdeaWithBlockScores
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CompareIdeasFragment : Fragment() {
+
     private var _binding: FragmentCompareIdeasBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CompareIdeasViewModel by viewModel()
-    private lateinit var adapter: IdeasAdapter
+
+    private var ideasForSpinners: List<IdeaWithBlockScores> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,20 +53,18 @@ class CompareIdeasFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        adapter = IdeasAdapter(
-            onDetailsClick = { idea ->
-                findNavController().navigate(R.id.nav_idea_details, Bundle().apply {
-                    putString("ideaId", idea.id.toString())
-                })
-            },
-            onReportClick = { idea ->
-                findNavController().navigate(R.id.nav_idea_report, Bundle().apply {
-                    putString("ideaId", idea.id.toString())
+        binding.compareButton.setOnClickListener {
+            val pos1 = binding.idea1Spinner.selectedItemPosition
+            val pos2 = binding.idea2Spinner.selectedItemPosition
+            if (ideasForSpinners.getOrNull(pos1) != null && ideasForSpinners.getOrNull(pos2) != null && pos1 != pos2) {
+                val id1 = ideasForSpinners[pos1].idea.id
+                val id2 = ideasForSpinners[pos2].idea.id
+                findNavController().navigate(R.id.nav_compare_ideas_result, Bundle().apply {
+                    putString("idea1Id", id1.toString())
+                    putString("idea2Id", id2.toString())
                 })
             }
-        )
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        }
 
         setupObservers()
     }
@@ -75,7 +76,9 @@ class CompareIdeasFragment : Fragment() {
                     is CompareIdeasState.NoSelection -> {
                         binding.progressBar.visibility = View.GONE
                         binding.errorText.visibility = View.GONE
-                        binding.recyclerView.visibility = View.GONE
+                        binding.step1Container.visibility = View.VISIBLE
+                        binding.step2Container.visibility = View.GONE
+                        binding.step3Container.visibility = View.GONE
                         binding.emptyText.visibility = View.VISIBLE
                         binding.emptyText.text = getString(R.string.compare_ideas)
                     }
@@ -83,23 +86,48 @@ class CompareIdeasFragment : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.errorText.visibility = View.GONE
                         binding.emptyText.visibility = View.GONE
+                        binding.step2Container.visibility = View.GONE
+                        binding.step3Container.visibility = View.GONE
                     }
-                    is CompareIdeasState.Success -> {
+                    is CompareIdeasState.IdeasLoaded -> {
                         binding.progressBar.visibility = View.GONE
                         binding.errorText.visibility = View.GONE
-                        if (state.ideas.isEmpty()) {
+                        binding.step1Container.visibility = View.VISIBLE
+                        ideasForSpinners = state.ideasWithBlockScores
+                        if (state.ideasWithBlockScores.isEmpty()) {
+                            binding.step2Container.visibility = View.GONE
                             binding.emptyText.visibility = View.VISIBLE
                             binding.emptyText.text = "Нет идей для выбранного типа"
-                            binding.recyclerView.visibility = View.GONE
                         } else {
                             binding.emptyText.visibility = View.GONE
-                            binding.recyclerView.visibility = View.VISIBLE
-                            adapter.submitList(state.ideas)
+                            binding.step2Container.visibility = View.VISIBLE
+                            val titles = state.ideasWithBlockScores.map { it.idea.title }
+                            binding.idea1Spinner.adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_spinner_item,
+                                titles
+                            ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+                            binding.idea2Spinner.adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_spinner_item,
+                                titles
+                            ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+                            if (state.ideasWithBlockScores.size >= 2) {
+                                binding.idea1Spinner.setSelection(0)
+                                binding.idea2Spinner.setSelection(1)
+                                binding.compareButton.isEnabled = true
+                            } else {
+                                binding.compareButton.isEnabled = false
+                            }
                         }
+                    }
+                    is CompareIdeasState.Comparing -> {
+                        // Navigate to result screen instead; this branch is unreachable in normal flow
                     }
                     is CompareIdeasState.Error -> {
                         binding.progressBar.visibility = View.GONE
-                        binding.recyclerView.visibility = View.GONE
+                        binding.step2Container.visibility = View.GONE
+                        binding.step3Container.visibility = View.GONE
                         binding.emptyText.visibility = View.GONE
                         binding.errorText.text = state.message
                         binding.errorText.visibility = View.VISIBLE
