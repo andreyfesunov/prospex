@@ -10,6 +10,7 @@ import org.prospex.application.usecases.DeleteIdeaUseCase
 import org.prospex.application.usecases.GetIdeasUseCase
 import org.prospex.application.utilities.Result
 import org.prospex.domain.models.Idea
+import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.PageModel
 import org.prospex.domain.value_objects.Positive
 import java.util.UUID
@@ -21,6 +22,9 @@ class IdeasListViewModel(
 
     private val _ideasState = MutableStateFlow<IdeasState>(IdeasState.Loading)
     val ideasState: StateFlow<IdeasState> = _ideasState.asStateFlow()
+
+    private val _legalTypeFilter = MutableStateFlow<LegalType?>(null)
+    val legalTypeFilter: StateFlow<LegalType?> = _legalTypeFilter.asStateFlow()
 
     private val _currentPage = MutableStateFlow(1)
     private val pageSize = 10
@@ -36,7 +40,8 @@ class IdeasListViewModel(
             val result = getIdeasUseCase.execute(
                 GetIdeasUseCase.Params(
                     page = Positive(_currentPage.value.toUInt()),
-                    pageSize = Positive(pageSize.toUInt())
+                    pageSize = Positive(pageSize.toUInt()),
+                    legalType = _legalTypeFilter.value
                 )
             )
 
@@ -61,7 +66,8 @@ class IdeasListViewModel(
                 val result = getIdeasUseCase.execute(
                     GetIdeasUseCase.Params(
                         page = Positive(nextPage.toUInt()),
-                        pageSize = Positive(pageSize.toUInt())
+                        pageSize = Positive(pageSize.toUInt()),
+                        legalType = _legalTypeFilter.value
                     )
                 )
 
@@ -86,6 +92,12 @@ class IdeasListViewModel(
     }
 
     fun refresh() {
+        _currentPage.value = 1
+        loadIdeas()
+    }
+
+    fun setLegalTypeFilter(legalType: LegalType?) {
+        _legalTypeFilter.value = legalType
         _currentPage.value = 1
         loadIdeas()
     }

@@ -7,20 +7,29 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.prospex.application.usecases.CreateIdeaUseCase
+import org.prospex.application.usecases.UpdateIdeaUseCase
 import org.prospex.application.utilities.Result
+import org.prospex.domain.models.Idea
 import org.prospex.domain.models.LegalType
 import org.prospex.domain.models.Question
 import org.prospex.domain.models.QuestionOption
+import org.prospex.domain.models.SurveyResponse
+import org.prospex.domain.repositories.IIdeaRepository
 import org.prospex.domain.repositories.ISurveyRepository
 import java.util.UUID
 
 class CreateIdeaViewModel(
     private val createIdeaUseCase: CreateIdeaUseCase,
-    private val surveyRepository: ISurveyRepository
+    private val ideaRepository: IIdeaRepository,
+    private val surveyRepository: ISurveyRepository,
+    private val updateIdeaUseCase: UpdateIdeaUseCase
 ) : ViewModel() {
 
     private val _createIdeaState = MutableStateFlow<CreateIdeaState>(CreateIdeaState.Idle)
     val createIdeaState: StateFlow<CreateIdeaState> = _createIdeaState.asStateFlow()
+
+    private val _editingIdeaId = MutableStateFlow<UUID?>(null)
+    val editingIdeaId: StateFlow<UUID?> = _editingIdeaId.asStateFlow()
 
     private val _questions = MutableStateFlow<List<QuestionWithOptions>>(emptyList())
     val questions: StateFlow<List<QuestionWithOptions>> = _questions.asStateFlow()
@@ -68,6 +77,82 @@ class CreateIdeaViewModel(
             current[questionId] = setOf(optionId)
         }
         _selectedOptions.value = current
+    }
+
+    fun loadIdeaForEdit(ideaId: UUID) {
+        viewModelScope.launch {
+            _editingIdeaId.value = ideaId
+            _createIdeaState.value = CreateIdeaState.Loading
+
+            try {
+                val idea = ideaRepository.get(ideaId)
+                    ?: run {
+                        _createIdeaState.value = CreateIdeaState.Error("Идея не найдена")
+                        return@launch
+                    }
+                val surveyResponse = surveyRepository.getSurveyResponse(ideaId)
+                    ?: run {
+                        _createIdeaState.value = CreateIdeaState.Error("Ответы на вопросы не найдены")
+                        return@launch
+                    }
+                currentLegalType = idea.legalType
+                val questions = surveyRepository.getQuestionsByLegalType(idea.legalType)
+                val questionsWithOptions = questions.map { question ->
+                    val options = surveyRepository.getOptionsByQuestionId(question.id)
+                    QuestionWithOptions(question, options.toList())
+                }
+                _questions.value = questionsWithOptions
+                val optionIdsSet = surveyResponse.optionIds.toSet()
+                val selectedMap = questionsWithOptions.associate { qwo ->
+                    qwo.question.id to qwo.options
+                        .filter { it.id in optionIdsSet }
+                        .map { it.id }
+                        .toSet()
+                }
+                _selectedOptions.value = selectedMap
+                _createIdeaState.value = CreateIdeaState.LoadedForEdit(idea)
+            } catch (e: Exception) {
+                _createIdeaState.value = CreateIdeaState.Error("Ошибка загрузки: ${e.message}")
+            }
+        }
+    }
+
+    fun updateIdea(title: String, description: String) {
+        viewModelScope.launch {
+            val ideaId = _editingIdeaId.value ?: return@launch
+            val legalType = currentLegalType ?: return@launch
+
+            val allOptionIds = _selectedOptions.value.values.flatten().toTypedArray()
+            if (allOptionIds.isEmpty()) {
+                _createIdeaState.value = CreateIdeaState.Error("Необходимо ответить на все вопросы")
+                return@launch
+            }
+
+            _createIdeaState.value = CreateIdeaState.Creating
+
+            val result = updateIdeaUseCase.execute(
+                UpdateIdeaUseCase.Params(
+                    idea = UpdateIdeaUseCase.IdeaParams(
+                        id = ideaId,
+                        title = title,
+                        description = description
+                    ),
+                    surveyResponse = SurveyResponse(
+                        ideaId = ideaId,
+                        optionIds = allOptionIds
+                    )
+                )
+            )
+
+            when (result) {
+                is Result.Success -> {
+                    _createIdeaState.value = CreateIdeaState.Success(result.data)
+                }
+                is Result.Error -> {
+                    _createIdeaState.value = CreateIdeaState.Error(result.message)
+                }
+            }
+        }
     }
 
     fun createIdea(title: String, description: String) {
@@ -125,6 +210,7 @@ sealed class CreateIdeaState {
     data object Idle : CreateIdeaState()
     data object Loading : CreateIdeaState()
     data object Loaded : CreateIdeaState()
+    data class LoadedForEdit(val idea: Idea) : CreateIdeaState()
     data object Creating : CreateIdeaState()
     data class Success(val idea: org.prospex.domain.models.Idea) : CreateIdeaState()
     data class Error(val message: String) : CreateIdeaState()

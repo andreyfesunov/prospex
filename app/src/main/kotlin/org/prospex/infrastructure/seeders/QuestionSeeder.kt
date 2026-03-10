@@ -1794,7 +1794,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Оцените свои стартовые затраты.",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(question1_1)
         surveyRepository.create(QuestionOption(
@@ -1820,7 +1821,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какую сумму собственных средств вы готовы вложить?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(question1_2)
         surveyRepository.create(QuestionOption(
@@ -1846,7 +1848,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Как скоро вы планируете выйти на ежемесячную чистую прибыль?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(question1_3)
         surveyRepository.create(QuestionOption(
@@ -1872,7 +1875,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какой размер среднемесячной чистой прибыли вы ожидаете после выхода на стабильную работу?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 1
         )
         surveyRepository.create(question1_4)
         surveyRepository.create(QuestionOption(
@@ -1898,7 +1902,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Что делает ваше предложение уникальным? (Ваше УТП)",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(question2_1)
         surveyRepository.create(QuestionOption(
@@ -1924,7 +1929,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько хорошо вы изучили своих конкурентов?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(question2_2)
         surveyRepository.create(QuestionOption(
@@ -1950,7 +1956,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Как вы планируете привлекать первых клиентов? (отметьте все подходящие варианты)",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Checkbox
+            type = QuestionType.Checkbox,
+            blockOrder = 2
         )
         surveyRepository.create(question2_3)
         surveyRepository.create(QuestionOption(
@@ -1982,7 +1989,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Кто ваша целевая аудитория?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(question2_4)
         surveyRepository.create(QuestionOption(
@@ -2008,7 +2016,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько ваша услуга социально значима для вашего района/города?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 2
         )
         surveyRepository.create(question2_5)
         surveyRepository.create(QuestionOption(
@@ -2034,7 +2043,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько готовы ключевые ресурсы для старта?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(question3_1)
         surveyRepository.create(QuestionOption(
@@ -2060,7 +2070,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Где вы будете оказывать услуги?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(question3_2)
         surveyRepository.create(QuestionOption(
@@ -2086,7 +2097,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Есть ли у вас надежные каналы для закупки материалов/расходников?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(question3_3)
         surveyRepository.create(QuestionOption(
@@ -2112,7 +2124,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько точно вы просчитали себестоимость вашей услуги?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 3
         )
         surveyRepository.create(question3_4)
         surveyRepository.create(QuestionOption(
@@ -2138,7 +2151,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Насколько ваш опыт и/или образование связаны с этой деятельностью?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(question4_1)
         surveyRepository.create(QuestionOption(
@@ -2164,7 +2178,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Готовы ли вы к ведению учета и документооборота (чеки, отчеты для соцзащиты)?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 4
         )
         surveyRepository.create(question4_2)
         surveyRepository.create(QuestionOption(
@@ -2190,7 +2205,8 @@ class QuestionSeeder(
             id = UUID.randomUUID(),
             text = "Какие главные риски вы видите для своего бизнеса и как планируете с ними бороться?",
             legalType = LegalType.SelfEmployed,
-            type = QuestionType.Radio
+            type = QuestionType.Radio,
+            blockOrder = 5
         )
         surveyRepository.create(question5_1)
         surveyRepository.create(QuestionOption(

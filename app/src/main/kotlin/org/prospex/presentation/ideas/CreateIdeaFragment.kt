@@ -53,6 +53,12 @@ class CreateIdeaFragment : Fragment() {
             } catch (_: Exception) {}
         }
 
+        arguments?.getString("ideaId")?.let { id ->
+            try {
+                viewModel.loadIdeaForEdit(java.util.UUID.fromString(id))
+            } catch (_: Exception) {}
+        }
+
         binding.loadQuestionsButton.setOnClickListener {
             val selectedPosition = binding.legalTypeSpinner.selectedItemPosition
             if (selectedPosition >= 0) {
@@ -65,8 +71,11 @@ class CreateIdeaFragment : Fragment() {
             val title = binding.titleEditText.text.toString()
             val description = binding.descriptionEditText.text.toString()
             val selectedPosition = binding.legalTypeSpinner.selectedItemPosition
+            val isEditMode = arguments?.getString("ideaId") != null
             if (title.isNotBlank() && description.isNotBlank()) {
-                if (selectedPosition >= 0) {
+                if (isEditMode) {
+                    viewModel.updateIdea(title, description)
+                } else if (selectedPosition >= 0) {
                     viewModel.createIdea(title, description)
                 } else {
                     binding.errorText.text = "Выберите тип юридического лица"
@@ -100,6 +109,18 @@ class CreateIdeaFragment : Fragment() {
                     }
                     is org.prospex.presentation.viewmodels.CreateIdeaState.Loaded -> {
                         binding.progressBar.visibility = View.GONE
+                    }
+                    is org.prospex.presentation.viewmodels.CreateIdeaState.LoadedForEdit -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.titleEditText.setText(state.idea.title)
+                        binding.descriptionEditText.setText(state.idea.description)
+                        val index = LegalType.entries.indexOf(state.idea.legalType)
+                        if (index >= 0) {
+                            binding.legalTypeSpinner.setSelection(index)
+                        }
+                        binding.createButton.text = getString(org.prospex.R.string.save_idea)
+                        binding.loadQuestionsButton.visibility = View.GONE
+                        binding.legalTypeSpinner.isEnabled = false
                     }
                     is org.prospex.presentation.viewmodels.CreateIdeaState.Creating -> {
                         binding.progressBar.visibility = View.VISIBLE

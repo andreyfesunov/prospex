@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Prospex</string>
+    <string name="app_name">Бизнес-старт</string>
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="sign_in">Войти</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="ideas_list">Список идей</string>
+    <string name="filter_all">Все</string>
     <string name="create_idea">Создать идею</string>
     <string name="logout">Выйти</string>
     <string name="account">Аккаунт</string>
@@ -17,6 +18,9 @@
     <string name="load_questions">Загрузить вопросы</string>
     <string name="details">Подробнее</string>
     <string name="idea_details">Детали идеи</string>
+    <string name="edit_idea">Редактировать</string>
+    <string name="save_idea">Сохранить</string>
+    <string name="export_idea_excel">Выгрузить в Excel</string>
     <string name="delete_idea">Удалить идею</string>
     <string name="delete_idea_confirmation">Вы уверены, что хотите удалить эту идею?</string>
     <string name="support_measures">Меры поддержки</string>
@@ -50,5 +54,17 @@
     <string name="compare_ideas_heading">Сравним идеи \"%1$s\" и \"%2$s\"</string>
     <string name="compare_ideas_score_line">%1$s: %2$d баллов</string>
     <string name="compare_ideas_analysis">Разбор идей</string>
+
+    <!-- Welcome / Onboarding -->
+    <string name="welcome_intro">Помогаем молодым предпринимателям делать первые шаги уверенно. Приложение структурирует хаотичные идеи в чёткие бизнес-модели. Выбирайте перспективные направления и опирайтесь на факты, а не на догадки. Всё для осознанного старта вашего дела.</string>
+    <string name="welcome_block1_title">Оценивайте бизнес-идеи</string>
+    <string name="welcome_block1_text">Проходите опрос и получайте балльную оценку</string>
+    <string name="welcome_block2_title">Сравнивайте варианты</string>
+    <string name="welcome_block2_text">Выбирайте лучшую идею с помощью таблиц</string>
+    <string name="welcome_block3_title">Господдержка</string>
+    <string name="welcome_block3_text">Гранты и субсидии Тульской области</string>
+    <string name="welcome_block4_title">Бизнес-план</string>
+    <string name="welcome_block4_text">Скачайте готовый шаблон</string>
+    <string name="welcome_start_button">Начать</string>
 </resources>
 

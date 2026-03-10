@@ -1,19 +1,24 @@
 package org.prospex.presentation.ideas
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.prospex.R
+import org.prospex.application.utilities.Result
 import org.prospex.databinding.FragmentIdeaDetailsBinding
 import org.prospex.presentation.viewmodels.IdeaDetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 import java.util.UUID
 
 class IdeaDetailsFragment : Fragment() {
@@ -44,6 +49,14 @@ class IdeaDetailsFragment : Fragment() {
             findNavController().navigate(R.id.nav_idea_report, Bundle().apply {
                 putString("ideaId", ideaId.toString())
             })
+        }
+        binding.editButton.setOnClickListener {
+            findNavController().navigate(R.id.nav_create_idea, Bundle().apply {
+                putString("ideaId", ideaId.toString())
+            })
+        }
+        binding.exportExcelButton.setOnClickListener {
+            exportIdeaToExcel(ideaId)
         }
 
         setupObservers()
@@ -146,6 +159,47 @@ class IdeaDetailsFragment : Fragment() {
 
         binding.questionsContainer.addView(questionLayout)
     }
+
+    private fun exportIdeaToExcel(ideaId: java.util.UUID) {
+        val state = viewModel.ideaDetailsState.value
+        if (state !is org.prospex.presentation.viewmodels.IdeaDetailsState.Success) {
+            Toast.makeText(requireContext(), "Данные идеи ещё не загружены", Toast.LENGTH_SHORT).show()
+            return
+        }
+        lifecycleScope.launch {
+            val questionAnswers = state.questionsWithAnswers.map { qwa ->
+                qwa.question.text to qwa.answers.joinToString(", ") { it.text }
+            }
+            val result = viewModel.exportToCsv(
+                state.idea,
+                getLegalTypeText(state.idea.legalType),
+                questionAnswers
+            )
+            when (result) {
+                is Result.Success -> {
+                    val fileName = "idea_${sanitizeFileName(state.idea.title)}.csv"
+                    val file = File(requireContext().cacheDir, fileName)
+                    file.writeText("\uFEFF" + result.data, Charsets.UTF_8)
+                    val uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        "${requireContext().packageName}.fileprovider",
+                        file
+                    )
+                    val intent = Intent(Intent.ACTION_SEND)
+                        .setType("text/csv")
+                        .putExtra(Intent.EXTRA_STREAM, uri)
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(Intent.createChooser(intent, getString(R.string.export_idea_excel)))
+                }
+                is Result.Error -> {
+                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun sanitizeFileName(name: String): String =
+        name.replace(Regex("[\\\\/:*?\"<>|]"), "_").take(50).ifBlank { "idea" }
 
     private fun showDeleteConfirmationDialog() {
         AlertDialog.Builder(requireContext())

@@ -19,8 +19,8 @@ object ViewModule {
         return module {
             viewModel { AuthViewModel(get(), get(), get(), get()) }
             viewModel { IdeasListViewModel(get(), get()) }
-            viewModel { CreateIdeaViewModel(get(), get()) }
-            viewModel { IdeaDetailsViewModel(get(), get(), get()) }
+            viewModel { CreateIdeaViewModel(get(), get(), get(), get()) }
+            viewModel { IdeaDetailsViewModel(get(), get(), get(), get()) }
             viewModel { IdeaReportViewModel(get(), get(), get()) }
             viewModel { SupportMeasuresViewModel(get()) }
             viewModel { CompareIdeasViewModel(get(), get()) }

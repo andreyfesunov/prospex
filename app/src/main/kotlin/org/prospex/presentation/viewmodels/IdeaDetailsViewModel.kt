@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.prospex.application.usecases.DeleteIdeaUseCase
+import org.prospex.application.usecases.ExportIdeaToExcelUseCase
 import org.prospex.application.utilities.Result
 import org.prospex.domain.models.Idea
 import org.prospex.domain.models.QuestionOption
@@ -17,7 +18,8 @@ import java.util.UUID
 class IdeaDetailsViewModel(
     private val ideaRepository: IIdeaRepository,
     private val surveyRepository: ISurveyRepository,
-    private val deleteIdeaUseCase: DeleteIdeaUseCase
+    private val deleteIdeaUseCase: DeleteIdeaUseCase,
+    private val exportIdeaToExcelUseCase: ExportIdeaToExcelUseCase
 ) : ViewModel() {
 
     private val _ideaDetailsState = MutableStateFlow<IdeaDetailsState>(IdeaDetailsState.Loading)
@@ -54,6 +56,20 @@ class IdeaDetailsViewModel(
                 _ideaDetailsState.value = IdeaDetailsState.Error("Ошибка загрузки: ${e.message}")
             }
         }
+    }
+
+    suspend fun exportToCsv(
+        idea: Idea,
+        legalTypeLabel: String,
+        questionAnswers: List<Pair<String, String>>
+    ): Result<String> {
+        return exportIdeaToExcelUseCase.execute(
+            ExportIdeaToExcelUseCase.Params(
+                idea = idea,
+                legalTypeLabel = legalTypeLabel,
+                questionAnswers = questionAnswers
+            )
+        )
     }
 
     fun deleteIdea() {

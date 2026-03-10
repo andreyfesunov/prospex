@@ -8,6 +8,7 @@ import org.prospex.application.usecases.DeleteIdeaUseCase
 import org.prospex.application.usecases.GetIdeasUseCase
 import org.prospex.application.usecases.SignInUseCase
 import org.prospex.application.usecases.SignUpUseCase
+import org.prospex.application.usecases.ExportIdeaToExcelUseCase
 import org.prospex.application.usecases.UpdateIdeaUseCase
 import org.prospex.application.utilities.IAuthContext
 import org.prospex.application.utilities.IUnitOfWork
@@ -71,6 +72,7 @@ object AppModule {
             single { SignInUseCase(get()) }
             single { SignUpUseCase(get(), get(), get()) }
             single { UpdateIdeaUseCase(get(), get(), get(), get()) }
+            single { org.prospex.application.usecases.ExportIdeaToExcelUseCase() }
 
             // Seeders
             single { org.prospex.infrastructure.seeders.QuestionSeeder(get()) }
