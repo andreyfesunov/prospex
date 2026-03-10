@@ -8,15 +8,53 @@ import org.prospex.domain.models.QuestionOption
 import org.prospex.domain.models.QuestionType
 import org.prospex.domain.repositories.ISurveyRepository
 import org.prospex.domain.value_objects.Score
+import org.prospex.infrastructure.database.dao.QuestionDao
 import java.util.UUID
 
 class QuestionSeeder(
-    private val surveyRepository: ISurveyRepository
+    private val surveyRepository: ISurveyRepository,
+    private val questionDao: QuestionDao
 ) {
     suspend fun seedIfEmpty() {
         withContext(Dispatchers.IO) {
             if (!surveyRepository.hasAnyOptions()) {
                 seedQuestions()
+            }
+            migrateSelfEmployedBlockOrder()
+        }
+    }
+
+    /** Исправляет blockOrder для вопросов самозанятого на уже установленных приложениях (все были с default 1). */
+    private suspend fun migrateSelfEmployedBlockOrder() {
+        withContext(Dispatchers.IO) {
+            val entities = questionDao.getByLegalType(LegalType.SelfEmployed.name)
+            if (entities.isEmpty()) return@withContext
+            if (entities.any { it.blockOrder != 1 }) return@withContext // уже мигрировано
+
+            val textToBlockOrder = mapOf(
+                "Оцените свои стартовые затраты." to 1,
+                "Какую сумму собственных средств вы готовы вложить?" to 1,
+                "Как скоро вы планируете выйти на ежемесячную чистую прибыль?" to 1,
+                "Какой размер среднемесячной чистой прибыли вы ожидаете после выхода на стабильную работу?" to 1,
+                "Что делает ваше предложение уникальным? (Ваше УТП)" to 2,
+                "Насколько хорошо вы изучили своих конкурентов?" to 2,
+                "Как вы планируете привлекать первых клиентов? (отметьте все подходящие варианты)" to 2,
+                "Кто ваша целевая аудитория?" to 2,
+                "Насколько ваша услуга социально значима для вашего района/города?" to 2,
+                "Насколько готовы ключевые ресурсы для старта?" to 3,
+                "Где вы будете оказывать услуги?" to 3,
+                "Есть ли у вас надежные каналы для закупки материалов/расходников?" to 3,
+                "Насколько точно вы просчитали себестоимость вашей услуги?" to 3,
+                "Насколько ваш опыт и/или образование связаны с этой деятельностью?" to 4,
+                "Готовы ли вы к ведению учета и документооборота (чеки, отчеты для соцзащиты)?" to 4,
+                "Какие главные риски вы видите для своего бизнеса и как планируете с ними бороться?" to 5
+            )
+            entities.forEach { entity ->
+                textToBlockOrder[entity.text]?.let { blockOrder ->
+                    if (entity.blockOrder != blockOrder) {
+                        questionDao.updateBlockOrder(entity.id, blockOrder)
+                    }
+                }
             }
         }
     }

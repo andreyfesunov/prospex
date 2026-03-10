@@ -17,6 +17,45 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/legal_type"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp" />
+
+            <Spinner
+                android:id="@+id/legalTypeFilterSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/measure_type"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp" />
+
+            <Spinner
+                android:id="@+id/measureTypeFilterSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
                 android:id="@+id/errorText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

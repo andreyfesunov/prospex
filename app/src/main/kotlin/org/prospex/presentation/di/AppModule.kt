@@ -75,7 +75,7 @@ object AppModule {
             single { org.prospex.application.usecases.ExportIdeaToExcelUseCase() }
 
             // Seeders
-            single { org.prospex.infrastructure.seeders.QuestionSeeder(get()) }
+            single { org.prospex.infrastructure.seeders.QuestionSeeder(get(), get()) }
             single { org.prospex.infrastructure.seeders.SupportMeasureSeeder(get()) }
             single { org.prospex.infrastructure.seeders.EntrepreneurshipFormSeeder(get()) }
             single { org.prospex.infrastructure.seeders.LegalTypeSurveySeeder(get()) }

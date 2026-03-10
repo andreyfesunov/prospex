@@ -16,5 +16,8 @@ interface QuestionDao {
     
     @Query("SELECT DISTINCT q.* FROM questions q INNER JOIN question_options qo ON q.id = qo.questionId WHERE qo.id IN (:optionIds)")
     suspend fun getByOptionIds(optionIds: List<String>): List<QuestionEntity>
+
+    @Query("UPDATE questions SET block_order = :blockOrder WHERE id = :id")
+    suspend fun updateBlockOrder(id: String, blockOrder: Int)
 }
 

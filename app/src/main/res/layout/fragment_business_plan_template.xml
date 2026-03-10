@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".presentation.information.BusinessPlanTemplateFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="24dp"
-        android:text="Раздел в разработке. Здесь будет шаблон бизнес плана."
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/business_plan_description"
+            android:textSize="16sp"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_marginBottom="24dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/openTemplateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/business_plan_open_button" />
+
+    </LinearLayout>
+</ScrollView>

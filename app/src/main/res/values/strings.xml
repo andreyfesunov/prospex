@@ -24,6 +24,13 @@
     <string name="delete_idea">Удалить идею</string>
     <string name="delete_idea_confirmation">Вы уверены, что хотите удалить эту идею?</string>
     <string name="support_measures">Меры поддержки</string>
+    <string name="measure_type">Тип меры</string>
+    <string name="measure_type_grant">Грант</string>
+    <string name="measure_type_social_contract">Социальный контракт</string>
+    <string name="measure_type_loan">Займ</string>
+    <string name="measure_type_guarantee">Гарантия</string>
+    <string name="measure_type_subsidy">Субсидия</string>
+    <string name="measure_type_non_financial">Нефинансовая поддержка</string>
     <string name="idea_report">Справка об идее</string>
     <string name="idea_report_total_score">Общая оценка: %d</string>
     <string name="idea_report_blocks_section">Баллы по блокам</string>
@@ -46,6 +53,8 @@
     <string name="create_idea_with_form">Создать идею с этой формой</string>
     <string name="information">Информация</string>
     <string name="business_plan_template">Шаблон бизнес плана</string>
+    <string name="business_plan_description">Образец бизнес-плана для подачи в центр занятости при получении субсидии на открытие своего дела. Заполните разделы по своему проекту и приложите к заявлению.</string>
+    <string name="business_plan_open_button">Открыть шаблон</string>
     <string name="compare_button">Сравнить</string>
     <string name="idea_1">Идея 1</string>
     <string name="idea_2">Идея 2</string>
